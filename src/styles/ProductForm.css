@@ -1,0 +1,227 @@
+.product-form {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.product-form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.section-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.field-label .required {
+  color: #ef4444;
+}
+
+.field-input {
+  padding: 12px 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  color: #1f2937;
+  background: #ffffff;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  transition: all 0.2s;
+}
+
+.field-input:focus {
+  outline: none;
+  border-color: #4A7FFF;
+  box-shadow: 0 0 0 3px rgba(74, 127, 255, 0.1);
+}
+
+.field-input:disabled {
+  background: #f9fafb;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.field-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-prefix {
+  position: absolute;
+  left: 16px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #6b7280;
+  pointer-events: none;
+}
+
+.field-input.with-prefix {
+  padding-left: 36px;
+}
+
+.field-textarea {
+  padding: 12px 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #1f2937;
+  background: #ffffff;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  resize: vertical;
+  transition: all 0.2s;
+}
+
+.field-textarea:focus {
+  outline: none;
+  border-color: #4A7FFF;
+  box-shadow: 0 0 0 3px rgba(74, 127, 255, 0.1);
+}
+
+.field-textarea:disabled {
+  background: #f9fafb;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.field-hint {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+.form-divider {
+  position: relative;
+  text-align: center;
+  margin: 24px 0;
+}
+
+.form-divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #e5e7eb;
+}
+
+.form-divider span {
+  position: relative;
+  display: inline-block;
+  padding: 0 16px;
+  background: white;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.product-form-actions {
+  display: flex;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 2px solid #e5e7eb;
+  position: sticky;
+  bottom: 0;
+  background: linear-gradient(to top, #ffffff 80%, transparent);
+  padding-bottom: 24px;
+}
+
+.form-button {
+  flex: 1;
+  padding: 14px 24px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.form-button.primary {
+  background: linear-gradient(135deg, #4A7FFF 0%, #3b68cc 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(74, 127, 255, 0.3);
+}
+
+.form-button.primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(74, 127, 255, 0.4);
+}
+
+.form-button.primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.form-button.secondary {
+  background: #ffffff;
+  color: #6b7280;
+  border: 2px solid #e5e7eb;
+}
+
+.form-button.secondary:hover:not(:disabled) {
+  background: #f9fafb;
+  border-color: #d1d5db;
+  transform: translateY(-1px);
+}
+
+.form-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .product-form {
+    padding: 16px;
+    gap: 24px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .product-form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .section-title {
+    font-size: 18px;
+  }
+}

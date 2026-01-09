@@ -1,0 +1,273 @@
+.stats-page {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #f9fafb 0%, #ffffff 100%);
+  padding: 24px;
+}
+
+.stats-header {
+  max-width: 1200px;
+  margin: 0 auto 32px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.stats-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+}
+
+.stats-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.stat-card {
+  display: flex;
+  gap: 20px;
+  padding: 28px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: cardFadeIn 0.5s ease forwards;
+  opacity: 0;
+}
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stat-card:nth-child(1) { animation-delay: 0.05s; }
+.stat-card:nth-child(2) { animation-delay: 0.1s; }
+.stat-card:nth-child(3) { animation-delay: 0.15s; }
+.stat-card:nth-child(4) { animation-delay: 0.2s; }
+.stat-card:nth-child(5) { animation-delay: 0.25s; }
+.stat-card:nth-child(6) { animation-delay: 0.3s; }
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.stat-icon {
+  font-size: 48px;
+  line-height: 1;
+}
+
+.stat-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.stat-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #6b7280;
+}
+
+.stat-value {
+  font-family: 'Outfit', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: #1f2937;
+  line-height: 1.2;
+}
+
+.stat-detail {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: #9ca3af;
+}
+
+/* Card Colors */
+.stat-card.invested {
+  border-top: 4px solid #6366f1;
+}
+
+.stat-card.earned {
+  border-top: 4px solid #8b5cf6;
+}
+
+.stat-card.profit.positive {
+  border-top: 4px solid #10b981;
+}
+
+.stat-card.profit.positive .stat-value {
+  color: #059669;
+}
+
+.stat-card.profit.negative {
+  border-top: 4px solid #ef4444;
+}
+
+.stat-card.profit.negative .stat-value {
+  color: #dc2626;
+}
+
+.stat-card.inventory {
+  border-top: 4px solid #f59e0b;
+}
+
+.stat-card.sold {
+  border-top: 4px solid #10b981;
+}
+
+.stat-card.available {
+  border-top: 4px solid #3b82f6;
+}
+
+/* Summary */
+.stats-summary {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.summary-card {
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+.summary-card h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 20px 0;
+}
+
+.summary-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.summary-card li {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #6b7280;
+  padding-left: 28px;
+  position: relative;
+}
+
+.summary-card li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #9ca3af;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.summary-card li.positive {
+  color: #059669;
+}
+
+.summary-card li.positive::before {
+  content: '✓';
+  color: #10b981;
+}
+
+.summary-card li.negative {
+  color: #dc2626;
+}
+
+.summary-card li.negative::before {
+  content: '!';
+  color: #ef4444;
+}
+
+/* Loading */
+.stats-page-loading,
+.stats-page-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: 16px;
+}
+
+.stats-page-loading p,
+.stats-page-error p {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  color: #6b7280;
+}
+
+.back-link {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: #4A7FFF;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .stats-page {
+    padding: 16px;
+  }
+
+  .stats-title {
+    font-size: 28px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .stat-card {
+    padding: 20px;
+  }
+
+  .stat-icon {
+    font-size: 40px;
+  }
+
+  .stat-value {
+    font-size: 28px;
+  }
+
+  .summary-card {
+    padding: 24px;
+  }
+
+  .summary-card h3 {
+    font-size: 20px;
+  }
+
+  .summary-card li {
+    font-size: 15px;
+  }
+}

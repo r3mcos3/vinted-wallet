@@ -1,0 +1,159 @@
+.image-upload {
+  width: 100%;
+}
+
+.image-upload-input {
+  display: none;
+}
+
+.image-upload-dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 48px 24px;
+  background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+  border: 2px dashed #d1d5db;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.image-upload-dropzone:hover:not(.disabled) {
+  border-color: #4A7FFF;
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  transform: scale(1.01);
+}
+
+.image-upload-dropzone.dragging {
+  border-color: #4A7FFF;
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  transform: scale(1.02);
+}
+
+.image-upload-dropzone.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.dropzone-icon {
+  font-size: 48px;
+  animation: iconBounce 2s ease-in-out infinite;
+}
+
+@keyframes iconBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.dropzone-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+}
+
+.dropzone-text strong {
+  font-family: 'Outfit', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.dropzone-text span {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.dropzone-hint {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: #9ca3af;
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 8px;
+}
+
+.image-upload-preview {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  animation: previewFadeIn 0.4s ease;
+}
+
+@keyframes previewFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.image-upload-preview img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.image-remove-button {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(239, 68, 68, 0.95);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 18px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s;
+}
+
+.image-remove-button:hover:not(:disabled) {
+  background: rgba(220, 38, 38, 0.95);
+  transform: scale(1.1);
+}
+
+.image-remove-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .image-upload-dropzone {
+    padding: 36px 20px;
+  }
+
+  .dropzone-icon {
+    font-size: 40px;
+  }
+
+  .dropzone-text strong {
+    font-size: 15px;
+  }
+
+  .dropzone-text span {
+    font-size: 13px;
+  }
+}

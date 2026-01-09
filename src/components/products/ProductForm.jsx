@@ -1,0 +1,246 @@
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { ImageUpload } from '../common/ImageUpload'
+import { SizeManager } from './SizeManager'
+import '../../styles/ProductForm.css'
+
+export function ProductForm({ product, onSubmit, loading }) {
+  const navigate = useNavigate()
+  const [formData, setFormData] = useState({
+    name: '',
+    purchase_price: '',
+    sale_price: '',
+    notes: '',
+    image: null,
+    quantity: '',
+    sizes: []
+  })
+
+  // Initialize form with product data if editing
+  useEffect(() => {
+    if (product) {
+      // Calculate total quantity from sizes
+      const totalQty = product.product_sizes?.reduce((sum, s) => sum + s.total_quantity, 0) || 0
+
+      setFormData({
+        name: product.name || '',
+        purchase_price: product.purchase_price || '',
+        sale_price: product.sale_price || '',
+        notes: product.notes || '',
+        image: product.image_url || null,
+        quantity: totalQty || '',
+        sizes: product.product_sizes || []
+      })
+    }
+  }, [product])
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
+  }
+
+  const handleImageChange = (file) => {
+    setFormData(prev => ({
+      ...prev,
+      image: file
+    }))
+  }
+
+  const handleSizesChange = (sizes) => {
+    setFormData(prev => ({
+      ...prev,
+      sizes
+    }))
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    // Validation
+    if (!formData.name.trim()) {
+      alert('Productnaam is verplicht')
+      return
+    }
+
+    if (!formData.purchase_price || formData.purchase_price <= 0) {
+      alert('Inkoopprijs moet groter zijn dan 0')
+      return
+    }
+
+    // If no sizes selected, use the simple quantity field
+    let finalData = { ...formData }
+    if (formData.sizes.length === 0) {
+      if (!formData.quantity || formData.quantity <= 0) {
+        alert('Vul aantal in of selecteer maten')
+        return
+      }
+      // Create a "One Size" entry with the quantity
+      finalData.sizes = [{
+        size: 'One Size',
+        quantity: parseInt(formData.quantity)
+      }]
+    }
+
+    onSubmit(finalData)
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="product-form">
+      <div className="product-form-section">
+        <h3 className="section-title">Product Foto</h3>
+        <ImageUpload
+          value={formData.image}
+          onChange={handleImageChange}
+          disabled={loading}
+        />
+      </div>
+
+      <div className="product-form-section">
+        <h3 className="section-title">Product Details</h3>
+
+        <div className="form-field">
+          <label htmlFor="name" className="field-label">
+            Productnaam <span className="required">*</span>
+          </label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            value={formData.name}
+            onChange={handleChange}
+            disabled={loading}
+            placeholder="bijv. Nike T-Shirt Wit"
+            className="field-input"
+            required
+          />
+        </div>
+
+        <div className="form-row">
+          <div className="form-field">
+            <label htmlFor="purchase_price" className="field-label">
+              Inkoopprijs <span className="required">*</span>
+            </label>
+            <div className="field-input-wrapper">
+              <span className="input-prefix">€</span>
+              <input
+                id="purchase_price"
+                name="purchase_price"
+                type="number"
+                step="0.01"
+                min="0"
+                value={formData.purchase_price}
+                onChange={handleChange}
+                disabled={loading}
+                placeholder="0.00"
+                className="field-input with-prefix"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="form-field">
+            <label htmlFor="sale_price" className="field-label">
+              Verkoopprijs
+            </label>
+            <div className="field-input-wrapper">
+              <span className="input-prefix">€</span>
+              <input
+                id="sale_price"
+                name="sale_price"
+                type="number"
+                step="0.01"
+                min="0"
+                value={formData.sale_price}
+                onChange={handleChange}
+                disabled={loading}
+                placeholder="0.00"
+                className="field-input with-prefix"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="form-field">
+          <label htmlFor="notes" className="field-label">
+            Notities
+          </label>
+          <textarea
+            id="notes"
+            name="notes"
+            value={formData.notes}
+            onChange={handleChange}
+            disabled={loading}
+            placeholder="Extra informatie over dit product..."
+            className="field-textarea"
+            rows="3"
+          />
+        </div>
+      </div>
+
+      <div className="product-form-section">
+        <h3 className="section-title">Voorraad</h3>
+
+        <div className="form-field">
+          <label htmlFor="quantity" className="field-label">
+            Aantal (als je geen specifieke maten hebt)
+          </label>
+          <input
+            id="quantity"
+            name="quantity"
+            type="number"
+            min="1"
+            value={formData.quantity}
+            onChange={handleChange}
+            disabled={loading || formData.sizes.length > 0}
+            placeholder="bijv. 5"
+            className="field-input"
+          />
+          <div className="field-hint">
+            {formData.sizes.length > 0 ?
+              '⚠️ Je hebt maten geselecteerd, aantal wordt genegeerd' :
+              'Vul dit in als je product geen specifieke maten heeft'
+            }
+          </div>
+        </div>
+
+        <div className="form-divider">
+          <span>OF</span>
+        </div>
+
+        <div className="form-field">
+          <label className="field-label">
+            Maten & Hoeveelheden per maat
+          </label>
+          <SizeManager
+            value={formData.sizes}
+            onChange={handleSizesChange}
+          />
+          <div className="field-hint">
+            Selecteer maten als je product in verschillende maten komt
+          </div>
+        </div>
+      </div>
+
+      <div className="product-form-actions">
+        <button
+          type="button"
+          onClick={() => navigate(-1)}
+          disabled={loading}
+          className="form-button secondary"
+        >
+          Annuleren
+        </button>
+        <button
+          type="submit"
+          disabled={loading}
+          className="form-button primary"
+        >
+          {loading ? 'Bezig...' : product ? 'Opslaan' : 'Product Toevoegen'}
+        </button>
+      </div>
+    </form>
+  )
+}
