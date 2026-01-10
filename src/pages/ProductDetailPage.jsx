@@ -25,7 +25,16 @@ export function ProductDetailPage() {
         .from('products')
         .select(`
           *,
-          product_sizes (*)
+          product_sizes (
+            *,
+            sales (
+              id,
+              sale_price,
+              quantity,
+              sold_at,
+              notes
+            )
+          )
         `)
         .eq('id', id)
         .single()
@@ -175,6 +184,58 @@ export function ProductDetailPage() {
               })}
             </div>
           </div>
+
+          {/* Sales History */}
+          {(() => {
+            // Collect all sales from all sizes
+            const allSales = product.product_sizes?.flatMap(size =>
+              (size.sales || []).map(sale => ({
+                ...sale,
+                size: size.size
+              }))
+            ) || []
+
+            // Sort by date, newest first
+            allSales.sort((a, b) => new Date(b.sold_at) - new Date(a.sold_at))
+
+            if (allSales.length === 0) return null
+
+            return (
+              <div className="detail-sales-history">
+                <h3>Verkoop Geschiedenis</h3>
+                <div className="sales-history-table">
+                  <div className="sales-history-header">
+                    <span>Datum</span>
+                    <span>Maat</span>
+                    <span>Aantal</span>
+                    <span>Verkoopprijs</span>
+                    <span>Winst</span>
+                  </div>
+                  {allSales.map(sale => {
+                    const profit = (sale.sale_price - product.purchase_price) * sale.quantity
+                    const saleDate = new Date(sale.sold_at)
+                    const formattedDate = saleDate.toLocaleDateString('nl-NL', {
+                      day: '2-digit',
+                      month: 'short',
+                      year: 'numeric'
+                    })
+
+                    return (
+                      <div key={sale.id} className="sales-history-row">
+                        <span className="sale-date">{formattedDate}</span>
+                        <span className="sale-size">{sale.size}</span>
+                        <span className="sale-quantity">{sale.quantity}x</span>
+                        <span className="sale-price">€{sale.sale_price.toFixed(2)}</span>
+                        <span className={`sale-profit ${profit >= 0 ? 'positive' : 'negative'}`}>
+                          {profit >= 0 ? '+' : ''}€{profit.toFixed(2)}
+                        </span>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            )
+          })()}
         </div>
       </div>
 
