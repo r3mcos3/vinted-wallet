@@ -1,9 +1,48 @@
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
 import { useStats } from '../hooks/useStats'
 import '../styles/StatsPage.css'
 
 export function StatsPage() {
-  const { stats, loading } = useStats()
+  const { stats, loading, updateStartingBudget } = useStats()
+  const [isEditingBudget, setIsEditingBudget] = useState(false)
+  const [budgetValue, setBudgetValue] = useState('')
+  const [budgetError, setBudgetError] = useState('')
+  const [budgetSuccess, setBudgetSuccess] = useState(false)
+
+  const handleEditBudget = () => {
+    setBudgetValue(stats?.starting_budget?.toFixed(2) || '0.00')
+    setIsEditingBudget(true)
+    setBudgetError('')
+    setBudgetSuccess(false)
+  }
+
+  const handleCancelEdit = () => {
+    setIsEditingBudget(false)
+    setBudgetValue('')
+    setBudgetError('')
+    setBudgetSuccess(false)
+  }
+
+  const handleSaveBudget = async () => {
+    try {
+      setBudgetError('')
+      setBudgetSuccess(false)
+
+      const amount = parseFloat(budgetValue)
+      if (isNaN(amount) || amount < 0) {
+        setBudgetError('Voer een geldig bedrag in (minimaal €0.00)')
+        return
+      }
+
+      await updateStartingBudget(amount)
+      setIsEditingBudget(false)
+      setBudgetSuccess(true)
+      setTimeout(() => setBudgetSuccess(false), 3000)
+    } catch (err) {
+      setBudgetError(err.message || 'Kon budget niet updaten')
+    }
+  }
 
   if (loading) {
     return (
@@ -41,9 +80,64 @@ export function StatsPage() {
       </div>
 
       <div className="stats-grid">
+        {/* Wallet Balance */}
+        <div className={`stat-card wallet ${stats.wallet_balance >= 0 ? 'positive' : 'negative'}`}>
+          <div className="stat-icon">💰</div>
+          <div className="stat-content">
+            <div className="stat-label">Wallet Saldo</div>
+            <div className="stat-value">
+              {stats.wallet_balance >= 0 ? '' : '-'}€{Math.abs(stats.wallet_balance).toFixed(2)}
+            </div>
+            <div className="stat-detail">
+              Huidig beschikbaar bedrag
+            </div>
+          </div>
+        </div>
+
+        {/* Starting Budget - Editable */}
+        <div className="stat-card budget-settings">
+          <div className="stat-icon">🏦</div>
+          <div className="stat-content">
+            <div className="stat-label">Startbudget</div>
+            {!isEditingBudget ? (
+              <>
+                <div className="stat-value">€{stats.starting_budget.toFixed(2)}</div>
+                <button onClick={handleEditBudget} className="edit-budget-btn">
+                  ✏️ Aanpassen
+                </button>
+                {budgetSuccess && (
+                  <div className="budget-success">✓ Budget bijgewerkt!</div>
+                )}
+              </>
+            ) : (
+              <div className="budget-editor">
+                <input
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  value={budgetValue}
+                  onChange={(e) => setBudgetValue(e.target.value)}
+                  className="budget-input"
+                  placeholder="0.00"
+                  autoFocus
+                />
+                {budgetError && <div className="budget-error">{budgetError}</div>}
+                <div className="budget-actions">
+                  <button onClick={handleSaveBudget} className="budget-save-btn">
+                    Opslaan
+                  </button>
+                  <button onClick={handleCancelEdit} className="budget-cancel-btn">
+                    Annuleren
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
         {/* Total Invested */}
         <div className="stat-card invested">
-          <div className="stat-icon">💰</div>
+          <div className="stat-icon">💸</div>
           <div className="stat-content">
             <div className="stat-label">Totaal Geïnvesteerd</div>
             <div className="stat-value">€{stats.total_invested.toFixed(2)}</div>

@@ -100,6 +100,26 @@
 }
 
 /* Card Colors */
+.stat-card.wallet.positive {
+  border-top: 4px solid #10b981;
+}
+
+.stat-card.wallet.positive .stat-value {
+  color: #059669;
+}
+
+.stat-card.wallet.negative {
+  border-top: 4px solid #ef4444;
+}
+
+.stat-card.wallet.negative .stat-value {
+  color: #dc2626;
+}
+
+.stat-card.budget-settings {
+  border-top: 4px solid #06b6d4;
+}
+
 .stat-card.invested {
   border-top: 4px solid #6366f1;
 }
@@ -134,6 +154,107 @@
 
 .stat-card.available {
   border-top: 4px solid #3b82f6;
+}
+
+/* Budget Editor */
+.edit-budget-btn {
+  margin-top: 8px;
+  padding: 8px 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(6, 182, 212, 0.3);
+}
+
+.edit-budget-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(6, 182, 212, 0.4);
+}
+
+.budget-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.budget-input {
+  width: 100%;
+  padding: 12px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.budget-input:focus {
+  border-color: #06b6d4;
+}
+
+.budget-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.budget-save-btn,
+.budget-cancel-btn {
+  flex: 1;
+  padding: 10px 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.budget-save-btn {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+.budget-save-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+.budget-cancel-btn {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.budget-cancel-btn:hover {
+  background: #e5e7eb;
+}
+
+.budget-error {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: #dc2626;
+  font-weight: 500;
+}
+
+.budget-success {
+  margin-top: 8px;
+  padding: 8px 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #059669;
+  background: #d1fae5;
+  border-radius: 6px;
+  text-align: center;
 }
 
 /* Summary */

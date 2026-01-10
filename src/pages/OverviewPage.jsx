@@ -1,12 +1,14 @@
 import { Link } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { useProducts } from '../hooks/useProducts'
+import { useStats } from '../hooks/useStats'
 import { ProductGrid } from '../components/products/ProductGrid'
 import '../styles/OverviewPage.css'
 
 export function OverviewPage() {
   const { user, signOut } = useAuth()
   const { products, loading } = useProducts()
+  const { stats } = useStats()
 
   const handleLogout = async () => {
     try {
@@ -25,6 +27,18 @@ export function OverviewPage() {
             <p className="header-subtitle">
               Welkom terug, {user?.email?.split('@')[0]}!
             </p>
+          </div>
+
+          <div className="header-center">
+            <div className="wallet-display">
+              <div className="wallet-icon">💰</div>
+              <div className="wallet-info">
+                <div className="wallet-label">Wallet Saldo</div>
+                <div className={`wallet-amount ${stats?.wallet_balance >= 0 ? 'positive' : 'negative'}`}>
+                  €{stats?.wallet_balance?.toFixed(2) ?? '0.00'}
+                </div>
+              </div>
+            </div>
           </div>
 
           <div className="header-actions">
