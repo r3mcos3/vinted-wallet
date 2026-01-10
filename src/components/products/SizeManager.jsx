@@ -119,7 +119,7 @@ export function SizeManager({ value = [], onChange }) {
           >
             {size}
             {selectedSizes[size] && (
-              <span className="size-badge">{selectedSizes[size]}</span>
+              <span className="size-quantity-badge">{selectedSizes[size]}</span>
             )}
           </button>
         ))}
