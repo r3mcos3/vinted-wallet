@@ -69,7 +69,6 @@ export function useProducts() {
         .insert({
           name: productData.name,
           purchase_price: parseFloat(productData.purchase_price),
-          sale_price: productData.sale_price ? parseFloat(productData.sale_price) : null,
           notes: productData.notes || null,
           image_url: imageUrl,
           user_id: currentUser.id
@@ -134,7 +133,6 @@ export function useProducts() {
         .update({
           name: productData.name,
           purchase_price: parseFloat(productData.purchase_price),
-          sale_price: productData.sale_price ? parseFloat(productData.sale_price) : null,
           notes: productData.notes || null,
           image_url: imageUrl
         })
@@ -189,11 +187,13 @@ export function useProducts() {
     }
   }
 
-  const sellProductSize = async (sizeId, quantity = 1) => {
+  const sellProductSize = async (sizeId, salePrice, quantity = 1, notes = null) => {
     try {
-      const { data, error } = await supabase.rpc('sell_product_size', {
-        p_size_id: sizeId,
-        p_quantity: quantity
+      const { data, error} = await supabase.rpc('record_sale', {
+        p_product_size_id: sizeId,
+        p_sale_price: parseFloat(salePrice),
+        p_quantity: quantity,
+        p_notes: notes
       })
 
       if (error) throw error
@@ -201,7 +201,7 @@ export function useProducts() {
       await fetchProducts()
       return data
     } catch (err) {
-      console.error('Error selling product:', err)
+      console.error('Error recording sale:', err)
       throw err
     }
   }

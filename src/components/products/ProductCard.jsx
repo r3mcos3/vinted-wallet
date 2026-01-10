@@ -7,11 +7,6 @@ export function ProductCard({ product }) {
   const soldQuantity = product.product_sizes?.reduce((sum, size) => sum + size.sold_quantity, 0) || 0
   const availableQuantity = totalQuantity - soldQuantity
 
-  // Calculate potential profit
-  const potentialProfit = product.sale_price
-    ? (product.sale_price - product.purchase_price) * availableQuantity
-    : 0
-
   // Status
   const isSoldOut = availableQuantity === 0
   const isPartialSold = soldQuantity > 0 && availableQuantity > 0
@@ -55,23 +50,7 @@ export function ProductCard({ product }) {
             <span className="price-label">Inkoop</span>
             <span className="price-value">€{product.purchase_price.toFixed(2)}</span>
           </div>
-          {product.sale_price && (
-            <div className="price-item">
-              <span className="price-label">Verkoop</span>
-              <span className="price-value sale">€{product.sale_price.toFixed(2)}</span>
-            </div>
-          )}
         </div>
-
-        {/* Profit indicator */}
-        {product.sale_price && availableQuantity > 0 && (
-          <div className={`product-card-profit ${potentialProfit > 0 ? 'positive' : 'negative'}`}>
-            <span className="profit-label">Potentieel:</span>
-            <span className="profit-value">
-              {potentialProfit >= 0 ? '+' : ''}€{potentialProfit.toFixed(2)}
-            </span>
-          </div>
-        )}
       </div>
     </Link>
   )

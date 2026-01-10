@@ -9,7 +9,6 @@ export function ProductForm({ product, onSubmit, loading }) {
   const [formData, setFormData] = useState({
     name: '',
     purchase_price: '',
-    sale_price: '',
     notes: '',
     image: null,
     quantity: '',
@@ -25,7 +24,6 @@ export function ProductForm({ product, onSubmit, loading }) {
       setFormData({
         name: product.name || '',
         purchase_price: product.purchase_price || '',
-        sale_price: product.sale_price || '',
         notes: product.notes || '',
         image: product.image_url || null,
         quantity: totalQty || '',
@@ -118,48 +116,25 @@ export function ProductForm({ product, onSubmit, loading }) {
           />
         </div>
 
-        <div className="form-row">
-          <div className="form-field">
-            <label htmlFor="purchase_price" className="field-label">
-              Inkoopprijs <span className="required">*</span>
-            </label>
-            <div className="field-input-wrapper">
-              <span className="input-prefix">€</span>
-              <input
-                id="purchase_price"
-                name="purchase_price"
-                type="number"
-                step="0.01"
-                min="0"
-                value={formData.purchase_price}
-                onChange={handleChange}
-                disabled={loading}
-                placeholder="0.00"
-                className="field-input with-prefix"
-                required
-              />
-            </div>
-          </div>
-
-          <div className="form-field">
-            <label htmlFor="sale_price" className="field-label">
-              Verkoopprijs
-            </label>
-            <div className="field-input-wrapper">
-              <span className="input-prefix">€</span>
-              <input
-                id="sale_price"
-                name="sale_price"
-                type="number"
-                step="0.01"
-                min="0"
-                value={formData.sale_price}
-                onChange={handleChange}
-                disabled={loading}
-                placeholder="0.00"
-                className="field-input with-prefix"
-              />
-            </div>
+        <div className="form-field">
+          <label htmlFor="purchase_price" className="field-label">
+            Inkoopprijs <span className="required">*</span>
+          </label>
+          <div className="field-input-wrapper">
+            <span className="input-prefix">€</span>
+            <input
+              id="purchase_price"
+              name="purchase_price"
+              type="number"
+              step="0.01"
+              min="0"
+              value={formData.purchase_price}
+              onChange={handleChange}
+              disabled={loading}
+              placeholder="0.00"
+              className="field-input with-prefix"
+              required
+            />
           </div>
         </div>
 

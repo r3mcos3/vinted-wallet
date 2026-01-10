@@ -11,6 +11,7 @@ export function ProductDetailPage() {
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(true)
   const [sellModal, setSellModal] = useState(null)
+  const [salePrice, setSalePrice] = useState('')
   const [actionLoading, setActionLoading] = useState(false)
 
   useEffect(() => {
@@ -41,11 +42,17 @@ export function ProductDetailPage() {
   }
 
   const handleSell = async (sizeId) => {
+    if (!salePrice || parseFloat(salePrice) <= 0) {
+      alert('Vul een geldige verkoopprijs in')
+      return
+    }
+
     setActionLoading(true)
     try {
-      await sellProductSize(sizeId, 1)
+      await sellProductSize(sizeId, salePrice, 1)
       await fetchProduct()
       setSellModal(null)
+      setSalePrice('')
     } catch (err) {
       alert(err.message || 'Kon item niet verkopen')
     } finally {
@@ -83,9 +90,6 @@ export function ProductDetailPage() {
 
   const totalQuantity = product.product_sizes?.reduce((sum, s) => sum + s.total_quantity, 0) || 0
   const soldQuantity = product.product_sizes?.reduce((sum, s) => sum + s.sold_quantity, 0) || 0
-  const potentialProfit = product.sale_price
-    ? (product.sale_price - product.purchase_price) * (totalQuantity - soldQuantity)
-    : 0
 
   return (
     <div className="product-detail-page">
@@ -124,25 +128,7 @@ export function ProductDetailPage() {
               <span className="price-label">Inkoopprijs</span>
               <span className="price-value">€{product.purchase_price.toFixed(2)}</span>
             </div>
-            {product.sale_price && (
-              <>
-                <div className="price-arrow">→</div>
-                <div className="price-box sale">
-                  <span className="price-label">Verkoopprijs</span>
-                  <span className="price-value">€{product.sale_price.toFixed(2)}</span>
-                </div>
-              </>
-            )}
           </div>
-
-          {product.sale_price && (
-            <div className={`detail-profit ${potentialProfit > 0 ? 'positive' : 'negative'}`}>
-              <span>Potentiële winst:</span>
-              <strong>
-                {potentialProfit >= 0 ? '+' : ''}€{potentialProfit.toFixed(2)}
-              </strong>
-            </div>
-          )}
 
           {product.notes && (
             <div className="detail-notes">
@@ -194,15 +180,46 @@ export function ProductDetailPage() {
 
       {/* Sell Modal */}
       {sellModal && (
-        <div className="modal-overlay" onClick={() => setSellModal(null)}>
+        <div className="modal-overlay" onClick={() => {
+          setSellModal(null)
+          setSalePrice('')
+        }}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <h2>Product Verkopen</h2>
             <p>
-              Wil je <strong>{product.name}</strong> maat <strong>{sellModal.size}</strong> verkopen?
+              Verkoop <strong>{product.name}</strong> maat <strong>{sellModal.size}</strong>
             </p>
+
+            <div className="form-field" style={{ marginBottom: '20px' }}>
+              <label htmlFor="sale_price" className="field-label">
+                Verkoopprijs <span className="required">*</span>
+              </label>
+              <div className="field-input-wrapper">
+                <span className="input-prefix">€</span>
+                <input
+                  id="sale_price"
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  value={salePrice}
+                  onChange={(e) => setSalePrice(e.target.value)}
+                  placeholder="0.00"
+                  className="field-input with-prefix"
+                  autoFocus
+                  required
+                />
+              </div>
+              <div className="field-hint">
+                Inkoopprijs: €{product.purchase_price.toFixed(2)}
+              </div>
+            </div>
+
             <div className="modal-actions">
               <button
-                onClick={() => setSellModal(null)}
+                onClick={() => {
+                  setSellModal(null)
+                  setSalePrice('')
+                }}
                 disabled={actionLoading}
                 className="modal-button secondary"
               >
@@ -210,7 +227,7 @@ export function ProductDetailPage() {
               </button>
               <button
                 onClick={() => handleSell(sellModal.id)}
-                disabled={actionLoading}
+                disabled={actionLoading || !salePrice}
                 className="modal-button primary"
               >
                 {actionLoading ? 'Bezig...' : 'Bevestigen'}
