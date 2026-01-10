@@ -66,11 +66,6 @@ export function LoginPage() {
             {loading ? 'Bezig...' : 'Inloggen'}
           </button>
         </form>
-
-        <p className="auth-link">
-          Nog geen account?{' '}
-          <Link to="/register">Registreer hier</Link>
-        </p>
       </div>
     </div>
   )
