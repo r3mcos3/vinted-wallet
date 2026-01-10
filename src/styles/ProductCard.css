@@ -52,10 +52,19 @@
   background: linear-gradient(135deg, #f8f8f6 0%, #ececea 100%);
 }
 
-.product-card-badge {
+/* Badge Container */
+.product-card-badges {
   position: absolute;
   top: 12px;
   right: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  z-index: 10;
+}
+
+.product-card-badge {
   padding: 6px 12px;
   border-radius: 20px;
   font-family: 'DM Sans', sans-serif;
@@ -64,6 +73,7 @@
   backdrop-filter: blur(8px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   animation: badgeFadeIn 0.4s ease;
+  white-space: nowrap;
 }
 
 @keyframes badgeFadeIn {
@@ -90,6 +100,18 @@
 .product-card-badge.sold-out {
   background: rgba(239, 68, 68, 0.95);
   color: white;
+}
+
+.product-card-badge.return-warning {
+  background: rgba(251, 191, 36, 0.95);
+  color: #78350f;
+  font-size: 12px;
+}
+
+.product-card-badge.return-expired {
+  background: rgba(239, 68, 68, 0.95);
+  color: white;
+  font-size: 12px;
 }
 
 .product-card-content {

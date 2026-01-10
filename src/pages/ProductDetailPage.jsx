@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { useProducts } from '../hooks/useProducts'
+import { getReturnStatus } from '../utils/returnStatus'
 import '../styles/ProductDetailPage.css'
 
 export function ProductDetailPage() {
@@ -99,6 +100,7 @@ export function ProductDetailPage() {
 
   const totalQuantity = product.product_sizes?.reduce((sum, s) => sum + s.total_quantity, 0) || 0
   const soldQuantity = product.product_sizes?.reduce((sum, s) => sum + s.sold_quantity, 0) || 0
+  const returnStatus = getReturnStatus(product.purchase_date)
 
   return (
     <div className="product-detail-page">
@@ -119,6 +121,27 @@ export function ProductDetailPage() {
           </button>
         </div>
       </div>
+
+      {/* Return Status Warning */}
+      {returnStatus.status === 'warning' && (
+        <div className="return-warning-banner warning">
+          <div className="warning-icon">⚠️</div>
+          <div className="warning-content">
+            <strong>Product Retour Waarschuwing</strong>
+            <p>{returnStatus.message}</p>
+          </div>
+        </div>
+      )}
+
+      {returnStatus.status === 'expired' && (
+        <div className="return-warning-banner expired">
+          <div className="warning-icon">❌</div>
+          <div className="warning-content">
+            <strong>Retour Deadline Verstreken</strong>
+            <p>{returnStatus.message}</p>
+          </div>
+        </div>
+      )}
 
       <div className="detail-content">
         <div className="detail-image">

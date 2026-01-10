@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 import { ImageUpload } from '../common/ImageUpload'
 import { SizeManager } from './SizeManager'
 import '../../styles/ProductForm.css'
@@ -9,6 +11,7 @@ export function ProductForm({ product, onSubmit, loading }) {
   const [formData, setFormData] = useState({
     name: '',
     purchase_price: '',
+    purchase_date: new Date(), // Today's date as Date object
     notes: '',
     image: null,
     quantity: '',
@@ -24,10 +27,14 @@ export function ProductForm({ product, onSubmit, loading }) {
       setFormData({
         name: product.name || '',
         purchase_price: product.purchase_price || '',
+        purchase_date: product.purchase_date ? new Date(product.purchase_date) : new Date(),
         notes: product.notes || '',
         image: product.image_url || null,
         quantity: totalQty || '',
-        sizes: product.product_sizes || []
+        sizes: product.product_sizes?.map(s => ({
+          size: s.size,
+          quantity: s.total_quantity
+        })) || []
       })
     }
   }, [product])
@@ -51,6 +58,13 @@ export function ProductForm({ product, onSubmit, loading }) {
     setFormData(prev => ({
       ...prev,
       sizes
+    }))
+  }
+
+  const handleDateChange = (date) => {
+    setFormData(prev => ({
+      ...prev,
+      purchase_date: date
     }))
   }
 
@@ -81,6 +95,9 @@ export function ProductForm({ product, onSubmit, loading }) {
         quantity: parseInt(formData.quantity)
       }]
     }
+
+    // Format date as YYYY-MM-DD for database
+    finalData.purchase_date = formData.purchase_date.toISOString().split('T')[0]
 
     onSubmit(finalData)
   }
@@ -116,25 +133,49 @@ export function ProductForm({ product, onSubmit, loading }) {
           />
         </div>
 
-        <div className="form-field">
-          <label htmlFor="purchase_price" className="field-label">
-            Inkoopprijs <span className="required">*</span>
-          </label>
-          <div className="field-input-wrapper">
-            <span className="input-prefix">€</span>
-            <input
-              id="purchase_price"
-              name="purchase_price"
-              type="number"
-              step="0.01"
-              min="0"
-              value={formData.purchase_price}
-              onChange={handleChange}
+        <div className="form-row">
+          <div className="form-field">
+            <label htmlFor="purchase_price" className="field-label">
+              Inkoopprijs <span className="required">*</span>
+            </label>
+            <div className="field-input-wrapper">
+              <span className="input-prefix">€</span>
+              <input
+                id="purchase_price"
+                name="purchase_price"
+                type="number"
+                step="0.01"
+                min="0"
+                value={formData.purchase_price}
+                onChange={handleChange}
+                disabled={loading}
+                placeholder="0.00"
+                className="field-input with-prefix"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="form-field">
+            <label htmlFor="purchase_date" className="field-label">
+              Inkoopdatum <span className="required">*</span>
+            </label>
+            <DatePicker
+              id="purchase_date"
+              selected={formData.purchase_date}
+              onChange={handleDateChange}
+              dateFormat="dd-MM-yyyy"
               disabled={loading}
-              placeholder="0.00"
-              className="field-input with-prefix"
+              className="field-input"
               required
+              placeholderText="dd-mm-yyyy"
+              showYearDropdown
+              showMonthDropdown
+              dropdownMode="select"
             />
+            <div className="field-hint">
+              Retour mogelijk tot 30 dagen na aankoop
+            </div>
           </div>
         </div>
 

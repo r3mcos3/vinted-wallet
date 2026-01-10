@@ -69,6 +69,7 @@ export function useProducts() {
         .insert({
           name: productData.name,
           purchase_price: parseFloat(productData.purchase_price),
+          purchase_date: productData.purchase_date,
           notes: productData.notes || null,
           image_url: imageUrl,
           user_id: currentUser.id
@@ -133,6 +134,7 @@ export function useProducts() {
         .update({
           name: productData.name,
           purchase_price: parseFloat(productData.purchase_price),
+          purchase_date: productData.purchase_date,
           notes: productData.notes || null,
           image_url: imageUrl
         })
