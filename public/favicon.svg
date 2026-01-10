@@ -1,0 +1,26 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background with rounded square -->
+  <rect width="128" height="128" rx="24" fill="#3E3B92"/>
+
+  <!-- Gradient overlay for depth -->
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4A46A8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3E3B92;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="24" fill="url(#grad)"/>
+
+  <!-- VW Text - Bold and Clear -->
+  <!-- V in lime green -->
+  <path d="M 28 40 L 42 40 L 52 85 L 62 40 L 76 40 L 60 95 L 44 95 Z" fill="#7ED957" stroke="#7ED957" stroke-width="1"/>
+
+  <!-- W in turquoise -->
+  <path d="M 70 40 L 82 40 L 87 70 L 95 40 L 105 40 L 96 95 L 87 95 L 82 70 L 77 95 L 68 95 Z" fill="#5DD5ED" stroke="#5DD5ED" stroke-width="1"/>
+
+  <!-- Small price tag icon accent -->
+  <g transform="translate(102, 20)">
+    <circle cx="0" cy="0" r="10" fill="#7ED957"/>
+    <text x="0" y="4" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#3E3B92" text-anchor="middle">€</text>
+  </g>
+</svg>

@@ -1,0 +1,17 @@
+{
+  "name": "Vinted Wallet",
+  "short_name": "VW",
+  "description": "Track your Vinted resale inventory, sales, and profits",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#3E3B92",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
