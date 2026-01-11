@@ -253,6 +253,51 @@
   border: 1px dashed #e5e7eb;
 }
 
+/* Edit Mode Inventory Display */
+.size-quantity-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.size-current-stock {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+
+.stock-total {
+  font-weight: 600;
+  color: #374151;
+}
+
+.stock-sold {
+  color: #ef4444;
+}
+
+.stock-available {
+  color: #10b981;
+  font-weight: 600;
+}
+
+.stock-divider {
+  color: #d1d5db;
+}
+
+.size-new-total {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: #10b981;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
 /* Responsive */
 @media (max-width: 640px) {
   .size-buttons {

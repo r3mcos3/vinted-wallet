@@ -8,6 +8,7 @@ import '../../styles/ProductForm.css'
 
 export function ProductForm({ product, onSubmit, loading }) {
   const navigate = useNavigate()
+  const isEditMode = !!product
   const [formData, setFormData] = useState({
     name: '',
     purchase_price: '',
@@ -15,26 +16,22 @@ export function ProductForm({ product, onSubmit, loading }) {
     notes: '',
     image: null,
     quantity: '',
+    additionalQuantity: '', // For adding new stock in edit mode
     sizes: []
   })
 
   // Initialize form with product data if editing
   useEffect(() => {
     if (product) {
-      // Calculate total quantity from sizes
-      const totalQty = product.product_sizes?.reduce((sum, s) => sum + s.total_quantity, 0) || 0
-
       setFormData({
         name: product.name || '',
         purchase_price: product.purchase_price || '',
         purchase_date: product.purchase_date ? new Date(product.purchase_date) : new Date(),
         notes: product.notes || '',
         image: product.image_url || null,
-        quantity: totalQty || '',
-        sizes: product.product_sizes?.map(s => ({
-          size: s.size,
-          quantity: s.total_quantity
-        })) || []
+        quantity: '', // Will be shown as readonly current inventory
+        additionalQuantity: '', // New stock to add
+        sizes: [] // Will be handled by SizeManager in edit mode
       })
     }
   }, [product])
@@ -82,18 +79,37 @@ export function ProductForm({ product, onSubmit, loading }) {
       return
     }
 
-    // If no sizes selected, use the simple quantity field
     let finalData = { ...formData }
-    if (formData.sizes.length === 0) {
-      if (!formData.quantity || formData.quantity <= 0) {
-        alert('Vul aantal in of selecteer maten')
-        return
+
+    if (isEditMode) {
+      // In edit mode, we're adding stock, not setting totals
+      if (formData.sizes.length === 0) {
+        // Simple quantity mode - use additionalQuantity
+        const additionalQty = parseInt(formData.additionalQuantity) || 0
+        if (additionalQty > 0) {
+          finalData.sizes = [{
+            size: 'One Size',
+            additionalQuantity: additionalQty
+          }]
+        } else {
+          // No new stock being added, just update product details
+          finalData.sizes = []
+        }
       }
-      // Create a "One Size" entry with the quantity
-      finalData.sizes = [{
-        size: 'One Size',
-        quantity: parseInt(formData.quantity)
-      }]
+      // else: sizes are handled by SizeManager with additionalQuantity per size
+    } else {
+      // Create mode - use quantity as total
+      if (formData.sizes.length === 0) {
+        if (!formData.quantity || formData.quantity <= 0) {
+          alert('Vul aantal in of selecteer maten')
+          return
+        }
+        // Create a "One Size" entry with the quantity
+        finalData.sizes = [{
+          size: 'One Size',
+          quantity: parseInt(formData.quantity)
+        }]
+      }
     }
 
     // Format date as YYYY-MM-DD for database
@@ -199,45 +215,111 @@ export function ProductForm({ product, onSubmit, loading }) {
       <div className="product-form-section">
         <h3 className="section-title">Voorraad</h3>
 
-        <div className="form-field">
-          <label htmlFor="quantity" className="field-label">
-            Aantal (als je geen specifieke maten hebt)
-          </label>
-          <input
-            id="quantity"
-            name="quantity"
-            type="number"
-            min="1"
-            value={formData.quantity}
-            onChange={handleChange}
-            disabled={loading || formData.sizes.length > 0}
-            placeholder="bijv. 5"
-            className="field-input"
-          />
-          <div className="field-hint">
-            {formData.sizes.length > 0 ?
-              '⚠️ Je hebt maten geselecteerd, aantal wordt genegeerd' :
-              'Vul dit in als je product geen specifieke maten heeft'
-            }
-          </div>
-        </div>
+        {isEditMode ? (
+          // Edit mode: Show current inventory and field to add new stock
+          <>
+            {product.product_sizes?.length === 1 && product.product_sizes[0].size === 'One Size' ? (
+              // Simple quantity mode
+              <div className="form-field">
+                <div className="current-inventory">
+                  <div className="inventory-label">Huidige voorraad:</div>
+                  <div className="inventory-stats">
+                    <span className="stat-item">
+                      <strong>{product.product_sizes[0].total_quantity}</strong> totaal
+                    </span>
+                    <span className="stat-divider">•</span>
+                    <span className="stat-item sold">
+                      {product.product_sizes[0].sold_quantity} verkocht
+                    </span>
+                    <span className="stat-divider">•</span>
+                    <span className="stat-item available">
+                      {product.product_sizes[0].total_quantity - product.product_sizes[0].sold_quantity} beschikbaar
+                    </span>
+                  </div>
+                </div>
+                <label htmlFor="additionalQuantity" className="field-label">
+                  Nieuwe voorraad toevoegen
+                </label>
+                <input
+                  id="additionalQuantity"
+                  name="additionalQuantity"
+                  type="number"
+                  min="0"
+                  value={formData.additionalQuantity}
+                  onChange={handleChange}
+                  disabled={loading}
+                  placeholder="bijv. 5"
+                  className="field-input"
+                />
+                <div className="field-hint">
+                  {formData.additionalQuantity > 0 ?
+                    `✓ Nieuw totaal: ${product.product_sizes[0].total_quantity + parseInt(formData.additionalQuantity)} stuks` :
+                    'Laat leeg als je geen nieuwe voorraad toevoegt'
+                  }
+                </div>
+              </div>
+            ) : (
+              // Multi-size mode
+              <div className="form-field">
+                <label className="field-label">
+                  Maten & Voorraad Aanvullen
+                </label>
+                <SizeManager
+                  value={formData.sizes}
+                  onChange={handleSizesChange}
+                  existingInventory={product.product_sizes}
+                  isEditMode={true}
+                />
+                <div className="field-hint">
+                  Vul per maat in hoeveel nieuwe voorraad je wilt toevoegen
+                </div>
+              </div>
+            )}
+          </>
+        ) : (
+          // Create mode: Original behavior
+          <>
+            <div className="form-field">
+              <label htmlFor="quantity" className="field-label">
+                Aantal (als je geen specifieke maten hebt)
+              </label>
+              <input
+                id="quantity"
+                name="quantity"
+                type="number"
+                min="1"
+                value={formData.quantity}
+                onChange={handleChange}
+                disabled={loading || formData.sizes.length > 0}
+                placeholder="bijv. 5"
+                className="field-input"
+              />
+              <div className="field-hint">
+                {formData.sizes.length > 0 ?
+                  '⚠️ Je hebt maten geselecteerd, aantal wordt genegeerd' :
+                  'Vul dit in als je product geen specifieke maten heeft'
+                }
+              </div>
+            </div>
 
-        <div className="form-divider">
-          <span>OF</span>
-        </div>
+            <div className="form-divider">
+              <span>OF</span>
+            </div>
 
-        <div className="form-field">
-          <label className="field-label">
-            Maten & Hoeveelheden per maat
-          </label>
-          <SizeManager
-            value={formData.sizes}
-            onChange={handleSizesChange}
-          />
-          <div className="field-hint">
-            Selecteer maten als je product in verschillende maten komt
-          </div>
-        </div>
+            <div className="form-field">
+              <label className="field-label">
+                Maten & Hoeveelheden per maat
+              </label>
+              <SizeManager
+                value={formData.sizes}
+                onChange={handleSizesChange}
+              />
+              <div className="field-hint">
+                Selecteer maten als je product in verschillende maten komt
+              </div>
+            </div>
+          </>
+        )}
       </div>
 
       <div className="product-form-actions">

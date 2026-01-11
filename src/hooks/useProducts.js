@@ -142,26 +142,99 @@ export function useProducts() {
 
       if (productError) throw productError
 
-      // Update sizes: delete old and insert new
-      const { error: deleteError } = await supabase
+      // Get existing sizes to preserve sold_quantity
+      const { data: existingSizes, error: fetchError } = await supabase
         .from('product_sizes')
-        .delete()
+        .select('*')
         .eq('product_id', productId)
 
-      if (deleteError) throw deleteError
+      if (fetchError) throw fetchError
 
+      // Create a map of existing sizes by size name for quick lookup
+      const existingSizesMap = new Map(
+        existingSizes.map(s => [s.size, s])
+      )
+
+      // Track which sizes are in the new data
+      const newSizeNames = new Set(productData.sizes.map(s => s.size))
+
+      // Update or insert sizes from the form
       if (productData.sizes && productData.sizes.length > 0) {
-        const sizesData = productData.sizes.map(size => ({
-          product_id: productId,
-          size: size.size,
-          total_quantity: size.quantity
-        }))
+        for (const size of productData.sizes) {
+          const existing = existingSizesMap.get(size.size)
 
-        const { error: sizesError } = await supabase
-          .from('product_sizes')
-          .insert(sizesData)
+          if (existing) {
+            // Size exists - handle based on whether we're adding or setting quantity
+            let newTotalQty
 
-        if (sizesError) throw sizesError
+            if (size.hasOwnProperty('additionalQuantity')) {
+              // Adding new stock to existing
+              const additionalQty = parseInt(size.additionalQuantity) || 0
+              newTotalQty = existing.total_quantity + additionalQty
+            } else {
+              // Setting total (old behavior for compatibility)
+              newTotalQty = parseInt(size.quantity)
+            }
+
+            // Only update if quantity changed
+            if (newTotalQty !== existing.total_quantity) {
+              // Validate: new total_quantity must be >= sold_quantity
+              if (newTotalQty < existing.sold_quantity) {
+                throw new Error(
+                  `Kan totaal aantal voor maat "${size.size}" niet verlagen tot ${newTotalQty} omdat er al ${existing.sold_quantity} verkocht zijn`
+                )
+              }
+
+              const { error: updateError } = await supabase
+                .from('product_sizes')
+                .update({ total_quantity: newTotalQty })
+                .eq('id', existing.id)
+
+              if (updateError) throw updateError
+            }
+          } else {
+            // New size, insert it
+            const quantity = size.hasOwnProperty('additionalQuantity')
+              ? parseInt(size.additionalQuantity)
+              : parseInt(size.quantity)
+
+            if (quantity > 0) {
+              const { error: insertError } = await supabase
+                .from('product_sizes')
+                .insert({
+                  product_id: productId,
+                  size: size.size,
+                  total_quantity: quantity
+                })
+
+              if (insertError) throw insertError
+            }
+          }
+        }
+      }
+
+      // Delete sizes that are no longer in the form
+      // (only in create/full edit mode, not when just adding stock)
+      const isAddingStock = productData.sizes.some(s => s.hasOwnProperty('additionalQuantity'))
+
+      if (!isAddingStock) {
+        for (const existing of existingSizes) {
+          if (!newSizeNames.has(existing.size)) {
+            // Only delete if nothing has been sold
+            if (existing.sold_quantity > 0) {
+              throw new Error(
+                `Kan maat "${existing.size}" niet verwijderen omdat er al ${existing.sold_quantity} verkocht zijn. Pas eerst het aantal aan.`
+              )
+            }
+
+            const { error: deleteError } = await supabase
+              .from('product_sizes')
+              .delete()
+              .eq('id', existing.id)
+
+            if (deleteError) throw deleteError
+          }
+        }
       }
 
       await fetchProducts()

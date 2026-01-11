@@ -1,10 +1,21 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import '../../styles/ImageUpload.css'
 
 export function ImageUpload({ value, onChange, disabled }) {
   const [preview, setPreview] = useState(value || null)
   const [isDragging, setIsDragging] = useState(false)
   const fileInputRef = useRef(null)
+
+  // Update preview when value prop changes (e.g., when editing a product)
+  useEffect(() => {
+    if (typeof value === 'string') {
+      // If value is a URL string (existing image), set it as preview
+      setPreview(value)
+    } else if (value === null) {
+      // If value is null, clear preview
+      setPreview(null)
+    }
+  }, [value])
 
   const handleFileChange = (e) => {
     const file = e.target.files?.[0]
