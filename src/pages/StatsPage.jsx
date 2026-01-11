@@ -1,14 +1,31 @@
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useStats } from '../hooks/useStats'
 import '../styles/StatsPage.css'
 
 export function StatsPage() {
-  const { stats, loading, updateStartingBudget } = useStats()
+  const { stats, loading, updateStartingBudget, refetch: refetchStats } = useStats()
   const [isEditingBudget, setIsEditingBudget] = useState(false)
   const [budgetValue, setBudgetValue] = useState('')
   const [budgetError, setBudgetError] = useState('')
   const [budgetSuccess, setBudgetSuccess] = useState(false)
+
+  // Refetch stats when page becomes visible
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        refetchStats()
+      }
+    }
+
+    // Refetch on mount
+    refetchStats()
+
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+    }
+  }, [])
 
   const handleEditBudget = () => {
     setBudgetValue(stats?.starting_budget?.toFixed(2) || '0.00')

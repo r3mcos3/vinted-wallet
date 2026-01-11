@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { useEffect } from 'react'
 import { useAuth } from '../hooks/useAuth'
 import { useProducts } from '../hooks/useProducts'
 import { useStats } from '../hooks/useStats'
@@ -8,7 +9,24 @@ import '../styles/OverviewPage.css'
 export function OverviewPage() {
   const { user, signOut } = useAuth()
   const { products, loading } = useProducts()
-  const { stats } = useStats()
+  const { stats, refetch: refetchStats } = useStats()
+
+  // Refetch stats when page becomes visible (e.g., after editing a product)
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        refetchStats()
+      }
+    }
+
+    // Refetch on mount as well
+    refetchStats()
+
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+    }
+  }, [])
 
   const handleLogout = async () => {
     try {
