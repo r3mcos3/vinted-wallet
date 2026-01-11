@@ -13,7 +13,9 @@ export function useProducts() {
 
     try {
       setLoading(true)
-      const { data, error } = await supabase
+
+      // Fetch products with product_sizes
+      const { data: productsData, error: productsError } = await supabase
         .from('products')
         .select(`
           *,
@@ -21,8 +23,51 @@ export function useProducts() {
         `)
         .order('created_at', { ascending: false })
 
-      if (error) throw error
-      setProducts(data || [])
+      if (productsError) throw productsError
+
+      // Fetch all sales for this user's products
+      const { data: salesData, error: salesError } = await supabase
+        .from('sales')
+        .select(`
+          *,
+          product_sizes!inner (
+            product_id
+          )
+        `)
+
+      if (salesError) throw salesError
+
+      // Calculate average sale price per product
+      const avgSalePriceByProduct = {}
+
+      if (salesData && salesData.length > 0) {
+        // Group sales by product_id
+        const salesByProduct = {}
+
+        salesData.forEach(sale => {
+          const productId = sale.product_sizes.product_id
+          if (!salesByProduct[productId]) {
+            salesByProduct[productId] = []
+          }
+          salesByProduct[productId].push(sale)
+        })
+
+        // Calculate average for each product
+        Object.keys(salesByProduct).forEach(productId => {
+          const sales = salesByProduct[productId]
+          const totalRevenue = sales.reduce((sum, sale) => sum + (parseFloat(sale.sale_price) * sale.quantity), 0)
+          const totalQuantity = sales.reduce((sum, sale) => sum + sale.quantity, 0)
+          avgSalePriceByProduct[productId] = totalQuantity > 0 ? totalRevenue / totalQuantity : null
+        })
+      }
+
+      // Add average sale price to each product
+      const productsWithAvgPrice = (productsData || []).map(product => ({
+        ...product,
+        avg_sale_price: avgSalePriceByProduct[product.id] || null
+      }))
+
+      setProducts(productsWithAvgPrice)
     } catch (err) {
       setError(err.message)
       console.error('Error fetching products:', err)

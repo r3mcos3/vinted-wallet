@@ -181,6 +181,10 @@
   color: #4A7FFF;
 }
 
+.price-value.sale-price {
+  color: #10b981;
+}
+
 .product-card-profit {
   display: flex;
   align-items: center;

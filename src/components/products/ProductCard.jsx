@@ -66,6 +66,12 @@ export function ProductCard({ product }) {
             <span className="price-label">Inkoop</span>
             <span className="price-value">€{product.purchase_price.toFixed(2)}</span>
           </div>
+          {product.avg_sale_price !== null && (
+            <div className="price-item">
+              <span className="price-label">Gem. Verkoop</span>
+              <span className="price-value sale-price">€{product.avg_sale_price.toFixed(2)}</span>
+            </div>
+          )}
         </div>
       </div>
     </Link>
