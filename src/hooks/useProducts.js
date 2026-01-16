@@ -293,9 +293,11 @@ export function useProducts() {
     if (!user) throw new Error('Not authenticated')
 
     try {
+      // Soft delete: set deleted_at timestamp instead of actually deleting
+      // This preserves sales history and earnings calculations
       const { error } = await supabase
         .from('products')
-        .delete()
+        .update({ deleted_at: new Date().toISOString() })
         .eq('id', productId)
 
       if (error) throw error
