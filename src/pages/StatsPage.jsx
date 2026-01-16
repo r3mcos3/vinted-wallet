@@ -3,6 +3,15 @@ import { useState, useEffect } from 'react'
 import { useStats } from '../hooks/useStats'
 import '../styles/StatsPage.css'
 
+// Helper function to get ISO week number
+const getWeekNumber = (date) => {
+  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))
+  const dayNum = d.getUTCDay() || 7
+  d.setUTCDate(d.getUTCDate() + 4 - dayNum)
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1))
+  return Math.ceil((((d - yearStart) / 86400000) + 1) / 7)
+}
+
 // Helper function to format period labels
 const formatPeriodLabel = (periodType, periodData, offset) => {
   if (!periodData?.start_date) {
@@ -17,10 +26,10 @@ const formatPeriodLabel = (periodType, periodData, offset) => {
   const startDate = new Date(periodData.start_date)
 
   if (periodType === 'week') {
-    if (offset === 0) return 'Deze Week'
-    if (offset === -1) return 'Vorige Week'
-    const endDate = new Date(periodData.end_date)
-    return `${startDate.toLocaleDateString('nl-NL', { day: 'numeric', month: 'short' })} - ${endDate.toLocaleDateString('nl-NL', { day: 'numeric', month: 'short' })}`
+    const weekNum = getWeekNumber(startDate)
+    if (offset === 0) return `Deze Week (${weekNum})`
+    if (offset === -1) return `Vorige Week (${weekNum})`
+    return `Week ${weekNum}`
   }
 
   if (periodType === 'month') {
