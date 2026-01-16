@@ -5,6 +5,7 @@ import { useAuth } from './useAuth'
 export function useStats() {
   const { user } = useAuth()
   const [stats, setStats] = useState(null)
+  const [periodEarnings, setPeriodEarnings] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
@@ -13,22 +14,30 @@ export function useStats() {
 
     try {
       setLoading(true)
-      const { data, error } = await supabase.rpc('get_overview_stats', {
-        p_user_id: user.id
-      })
 
-      if (error) {
-        console.error('Supabase RPC error:', error)
-        throw error
+      // Fetch both overview stats and period earnings in parallel
+      const [overviewResult, periodResult] = await Promise.all([
+        supabase.rpc('get_overview_stats', { p_user_id: user.id }),
+        supabase.rpc('get_period_earnings', { p_user_id: user.id })
+      ])
+
+      if (overviewResult.error) {
+        console.error('Supabase RPC error:', overviewResult.error)
+        throw overviewResult.error
       }
 
       // Calculate net profit
-      const netProfit = data.total_earned - (data.total_invested - data.inventory_value)
+      const netProfit = overviewResult.data.total_earned - (overviewResult.data.total_invested - overviewResult.data.inventory_value)
 
       setStats({
-        ...data,
+        ...overviewResult.data,
         net_profit: netProfit
       })
+
+      // Period earnings might not exist yet (before migration)
+      if (!periodResult.error && periodResult.data) {
+        setPeriodEarnings(periodResult.data)
+      }
     } catch (err) {
       setError(err.message)
       console.error('Error fetching stats:', err)
@@ -63,6 +72,7 @@ export function useStats() {
 
   return {
     stats,
+    periodEarnings,
     loading,
     error,
     refetch: fetchStats,

@@ -257,6 +257,114 @@
   text-align: center;
 }
 
+/* Period Earnings Section */
+.period-earnings-section {
+  max-width: 1200px;
+  margin: 0 auto 32px auto;
+}
+
+.period-earnings-section .section-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 20px 0;
+}
+
+.period-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.period-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: cardFadeIn 0.5s ease forwards;
+  opacity: 0;
+}
+
+.period-card:nth-child(1) { animation-delay: 0.35s; }
+.period-card:nth-child(2) { animation-delay: 0.4s; }
+.period-card:nth-child(3) { animation-delay: 0.45s; }
+
+.period-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.period-card.week {
+  border-top: 4px solid #3b82f6;
+}
+
+.period-card.month {
+  border-top: 4px solid #8b5cf6;
+}
+
+.period-card.year {
+  border-top: 4px solid #f59e0b;
+}
+
+.period-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.period-icon {
+  font-size: 28px;
+}
+
+.period-label {
+  font-family: 'Outfit', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.period-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.period-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.period-stat:last-child {
+  border-bottom: none;
+}
+
+.period-stat-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.period-stat-value {
+  font-family: 'Outfit', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.period-stat-value.positive {
+  color: #059669;
+}
+
+.period-stat-value.negative {
+  color: #dc2626;
+}
+
 /* Summary */
 .stats-summary {
   max-width: 1200px;
@@ -390,5 +498,22 @@
 
   .summary-card li {
     font-size: 15px;
+  }
+
+  .period-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .period-card {
+    padding: 20px;
+  }
+
+  .period-label {
+    font-size: 16px;
+  }
+
+  .period-stat-value {
+    font-size: 16px;
   }
 }

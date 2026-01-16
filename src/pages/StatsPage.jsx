@@ -4,7 +4,7 @@ import { useStats } from '../hooks/useStats'
 import '../styles/StatsPage.css'
 
 export function StatsPage() {
-  const { stats, loading, updateStartingBudget, refetch: refetchStats } = useStats()
+  const { stats, periodEarnings, loading, updateStartingBudget, refetch: refetchStats } = useStats()
   const [isEditingBudget, setIsEditingBudget] = useState(false)
   const [budgetValue, setBudgetValue] = useState('')
   const [budgetError, setBudgetError] = useState('')
@@ -226,6 +226,86 @@ export function StatsPage() {
           </div>
         </div>
       </div>
+
+      {/* Period Earnings */}
+      {periodEarnings && (
+        <div className="period-earnings-section">
+          <h2 className="section-title">Verdiensten per Periode</h2>
+          <div className="period-grid">
+            {/* This Week */}
+            <div className="period-card week">
+              <div className="period-header">
+                <span className="period-icon">📅</span>
+                <span className="period-label">Deze Week</span>
+              </div>
+              <div className="period-stats">
+                <div className="period-stat">
+                  <span className="period-stat-label">Omzet</span>
+                  <span className="period-stat-value">€{periodEarnings.week.earned.toFixed(2)}</span>
+                </div>
+                <div className="period-stat">
+                  <span className="period-stat-label">Winst</span>
+                  <span className={`period-stat-value ${periodEarnings.week.profit >= 0 ? 'positive' : 'negative'}`}>
+                    {periodEarnings.week.profit >= 0 ? '+' : ''}€{periodEarnings.week.profit.toFixed(2)}
+                  </span>
+                </div>
+                <div className="period-stat">
+                  <span className="period-stat-label">Verkopen</span>
+                  <span className="period-stat-value">{periodEarnings.week.sales}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* This Month */}
+            <div className="period-card month">
+              <div className="period-header">
+                <span className="period-icon">📆</span>
+                <span className="period-label">Deze Maand</span>
+              </div>
+              <div className="period-stats">
+                <div className="period-stat">
+                  <span className="period-stat-label">Omzet</span>
+                  <span className="period-stat-value">€{periodEarnings.month.earned.toFixed(2)}</span>
+                </div>
+                <div className="period-stat">
+                  <span className="period-stat-label">Winst</span>
+                  <span className={`period-stat-value ${periodEarnings.month.profit >= 0 ? 'positive' : 'negative'}`}>
+                    {periodEarnings.month.profit >= 0 ? '+' : ''}€{periodEarnings.month.profit.toFixed(2)}
+                  </span>
+                </div>
+                <div className="period-stat">
+                  <span className="period-stat-label">Verkopen</span>
+                  <span className="period-stat-value">{periodEarnings.month.sales}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* This Year */}
+            <div className="period-card year">
+              <div className="period-header">
+                <span className="period-icon">📊</span>
+                <span className="period-label">Dit Jaar</span>
+              </div>
+              <div className="period-stats">
+                <div className="period-stat">
+                  <span className="period-stat-label">Omzet</span>
+                  <span className="period-stat-value">€{periodEarnings.year.earned.toFixed(2)}</span>
+                </div>
+                <div className="period-stat">
+                  <span className="period-stat-label">Winst</span>
+                  <span className={`period-stat-value ${periodEarnings.year.profit >= 0 ? 'positive' : 'negative'}`}>
+                    {periodEarnings.year.profit >= 0 ? '+' : ''}€{periodEarnings.year.profit.toFixed(2)}
+                  </span>
+                </div>
+                <div className="period-stat">
+                  <span className="period-stat-label">Verkopen</span>
+                  <span className="period-stat-value">{periodEarnings.year.sales}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Summary Cards */}
       <div className="stats-summary">
