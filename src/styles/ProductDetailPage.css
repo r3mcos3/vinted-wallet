@@ -455,7 +455,7 @@
 .sales-history-header,
 .sales-history-row {
   display: grid;
-  grid-template-columns: 1.2fr 1fr 0.8fr 1fr 1fr 1.3fr;
+  grid-template-columns: 1.2fr 1fr 0.8fr 1fr 1fr;
   gap: 16px;
   padding: 16px 20px;
   background: white;
@@ -508,32 +508,6 @@
 
 .sale-profit.negative {
   color: #ef4444;
-}
-
-/* Sale Return Deadline */
-.sale-return-deadline {
-  font-size: 14px;
-  color: #6b7280;
-}
-
-.sale-return-deadline.warning {
-  color: #f59e0b;
-  font-weight: 600;
-}
-
-.sale-return-deadline.expired {
-  color: #9ca3af;
-}
-
-.sale-return-deadline .deadline-passed {
-  font-weight: 600;
-  font-style: italic;
-}
-
-.sale-return-deadline .days-left {
-  margin-left: 4px;
-  font-size: 12px;
-  opacity: 0.8;
 }
 
 /* Modal */
@@ -695,17 +669,13 @@
 
   .sales-history-header,
   .sales-history-row {
-    grid-template-columns: 1fr 0.8fr 0.6fr 0.9fr 0.9fr 1.1fr;
+    grid-template-columns: 1fr 0.8fr 0.6fr 0.9fr 0.9fr;
     gap: 8px;
     padding: 12px;
     font-size: 13px;
   }
 
   .sale-date {
-    font-size: 12px;
-  }
-
-  .sale-return-deadline {
     font-size: 12px;
   }
 }
