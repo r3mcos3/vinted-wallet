@@ -3,8 +3,51 @@ import { useState, useEffect } from 'react'
 import { useStats } from '../hooks/useStats'
 import '../styles/StatsPage.css'
 
+// Helper function to format period labels
+const formatPeriodLabel = (periodType, periodData, offset) => {
+  if (!periodData?.start_date) {
+    if (offset === 0) {
+      if (periodType === 'week') return 'Deze Week'
+      if (periodType === 'month') return 'Deze Maand'
+      if (periodType === 'year') return 'Dit Jaar'
+    }
+    return ''
+  }
+
+  const startDate = new Date(periodData.start_date)
+
+  if (periodType === 'week') {
+    if (offset === 0) return 'Deze Week'
+    if (offset === -1) return 'Vorige Week'
+    const endDate = new Date(periodData.end_date)
+    return `${startDate.toLocaleDateString('nl-NL', { day: 'numeric', month: 'short' })} - ${endDate.toLocaleDateString('nl-NL', { day: 'numeric', month: 'short' })}`
+  }
+
+  if (periodType === 'month') {
+    if (offset === 0) return 'Deze Maand'
+    return startDate.toLocaleDateString('nl-NL', { month: 'long', year: 'numeric' })
+  }
+
+  if (periodType === 'year') {
+    if (offset === 0) return 'Dit Jaar'
+    return startDate.getFullYear().toString()
+  }
+
+  return ''
+}
+
 export function StatsPage() {
-  const { stats, periodEarnings, loading, updateStartingBudget, refetch: refetchStats } = useStats()
+  const {
+    stats,
+    periodEarnings,
+    periodOffsets,
+    loading,
+    periodLoading,
+    updateStartingBudget,
+    refetch: refetchStats,
+    navigatePeriod,
+    resetPeriod
+  } = useStats()
   const [isEditingBudget, setIsEditingBudget] = useState(false)
   const [budgetValue, setBudgetValue] = useState('')
   const [budgetError, setBudgetError] = useState('')
@@ -231,13 +274,36 @@ export function StatsPage() {
       {periodEarnings && (
         <div className="period-earnings-section">
           <h2 className="section-title">Verdiensten per Periode</h2>
-          <div className="period-grid">
-            {/* This Week */}
+          <div className={`period-grid ${periodLoading ? 'loading' : ''}`}>
+            {/* Week */}
             <div className="period-card week">
               <div className="period-header">
-                <span className="period-icon">📅</span>
-                <span className="period-label">Deze Week</span>
+                <button
+                  className="period-nav-btn"
+                  onClick={() => navigatePeriod('week', -1)}
+                  disabled={periodLoading}
+                >
+                  ‹
+                </button>
+                <div className="period-title">
+                  <span className="period-icon">📅</span>
+                  <span className="period-label">
+                    {formatPeriodLabel('week', periodEarnings.week, periodOffsets.week)}
+                  </span>
+                </div>
+                <button
+                  className="period-nav-btn"
+                  onClick={() => navigatePeriod('week', 1)}
+                  disabled={periodLoading || periodOffsets.week >= 0}
+                >
+                  ›
+                </button>
               </div>
+              {periodOffsets.week !== 0 && (
+                <button className="period-reset-btn" onClick={() => resetPeriod('week')}>
+                  Naar deze week
+                </button>
+              )}
               <div className="period-stats">
                 <div className="period-stat">
                   <span className="period-stat-label">Omzet</span>
@@ -256,12 +322,35 @@ export function StatsPage() {
               </div>
             </div>
 
-            {/* This Month */}
+            {/* Month */}
             <div className="period-card month">
               <div className="period-header">
-                <span className="period-icon">📆</span>
-                <span className="period-label">Deze Maand</span>
+                <button
+                  className="period-nav-btn"
+                  onClick={() => navigatePeriod('month', -1)}
+                  disabled={periodLoading}
+                >
+                  ‹
+                </button>
+                <div className="period-title">
+                  <span className="period-icon">📆</span>
+                  <span className="period-label">
+                    {formatPeriodLabel('month', periodEarnings.month, periodOffsets.month)}
+                  </span>
+                </div>
+                <button
+                  className="period-nav-btn"
+                  onClick={() => navigatePeriod('month', 1)}
+                  disabled={periodLoading || periodOffsets.month >= 0}
+                >
+                  ›
+                </button>
               </div>
+              {periodOffsets.month !== 0 && (
+                <button className="period-reset-btn" onClick={() => resetPeriod('month')}>
+                  Naar deze maand
+                </button>
+              )}
               <div className="period-stats">
                 <div className="period-stat">
                   <span className="period-stat-label">Omzet</span>
@@ -280,12 +369,35 @@ export function StatsPage() {
               </div>
             </div>
 
-            {/* This Year */}
+            {/* Year */}
             <div className="period-card year">
               <div className="period-header">
-                <span className="period-icon">📊</span>
-                <span className="period-label">Dit Jaar</span>
+                <button
+                  className="period-nav-btn"
+                  onClick={() => navigatePeriod('year', -1)}
+                  disabled={periodLoading}
+                >
+                  ‹
+                </button>
+                <div className="period-title">
+                  <span className="period-icon">📊</span>
+                  <span className="period-label">
+                    {formatPeriodLabel('year', periodEarnings.year, periodOffsets.year)}
+                  </span>
+                </div>
+                <button
+                  className="period-nav-btn"
+                  onClick={() => navigatePeriod('year', 1)}
+                  disabled={periodLoading || periodOffsets.year >= 0}
+                >
+                  ›
+                </button>
               </div>
+              {periodOffsets.year !== 0 && (
+                <button className="period-reset-btn" onClick={() => resetPeriod('year')}>
+                  Naar dit jaar
+                </button>
+              )}
               <div className="period-stats">
                 <div className="period-stat">
                   <span className="period-stat-label">Omzet</span>
