@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { useProducts } from '../hooks/useProducts'
-import { getReturnStatus } from '../utils/returnStatus'
+import { getReturnStatus, getSaleReturnDeadline } from '../utils/returnStatus'
 import '../styles/ProductDetailPage.css'
 
 export function ProductDetailPage() {
@@ -160,6 +160,28 @@ export function ProductDetailPage() {
               <span className="price-label">Inkoopprijs</span>
               <span className="price-value">€{product.purchase_price.toFixed(2)}</span>
             </div>
+            {product.purchase_date && (
+              <div className={`price-box return-box ${returnStatus.status}`}>
+                <span className="price-label">Retour mogelijk tot</span>
+                <span className="price-value return-date">
+                  {(() => {
+                    const deadline = new Date(product.purchase_date)
+                    deadline.setDate(deadline.getDate() + 30)
+                    return deadline.toLocaleDateString('nl-NL', {
+                      day: '2-digit',
+                      month: 'short',
+                      year: 'numeric'
+                    })
+                  })()}
+                </span>
+                {returnStatus.status === 'warning' && (
+                  <span className="return-days-left">Nog {returnStatus.daysLeft} {returnStatus.daysLeft === 1 ? 'dag' : 'dagen'}</span>
+                )}
+                {returnStatus.status === 'expired' && (
+                  <span className="return-expired-text">Verlopen</span>
+                )}
+              </div>
+            )}
           </div>
 
           {product.notes && (
@@ -233,11 +255,18 @@ export function ProductDetailPage() {
                     <span>Aantal</span>
                     <span>Verkoopprijs</span>
                     <span>Winst</span>
+                    <span>Retour Deadline</span>
                   </div>
                   {allSales.map(sale => {
                     const profit = (sale.sale_price - product.purchase_price) * sale.quantity
                     const saleDate = new Date(sale.sold_at)
                     const formattedDate = saleDate.toLocaleDateString('nl-NL', {
+                      day: '2-digit',
+                      month: 'short',
+                      year: 'numeric'
+                    })
+                    const returnInfo = getSaleReturnDeadline(sale.sold_at)
+                    const deadlineFormatted = returnInfo.deadline?.toLocaleDateString('nl-NL', {
                       day: '2-digit',
                       month: 'short',
                       year: 'numeric'
@@ -251,6 +280,18 @@ export function ProductDetailPage() {
                         <span className="sale-price">€{sale.sale_price.toFixed(2)}</span>
                         <span className={`sale-profit ${profit >= 0 ? 'positive' : 'negative'}`}>
                           {profit >= 0 ? '+' : ''}€{profit.toFixed(2)}
+                        </span>
+                        <span className={`sale-return-deadline ${returnInfo.isExpired ? 'expired' : returnInfo.daysLeft <= 3 ? 'warning' : ''}`}>
+                          {returnInfo.isExpired ? (
+                            <span className="deadline-passed">Verstreken</span>
+                          ) : (
+                            <>
+                              {deadlineFormatted}
+                              {returnInfo.daysLeft <= 3 && (
+                                <span className="days-left">({returnInfo.daysLeft}d)</span>
+                              )}
+                            </>
+                          )}
                         </span>
                       </div>
                     )
