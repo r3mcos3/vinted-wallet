@@ -51,6 +51,25 @@ Om opnieuw te starten:
 npm run dev
 ```
 
+### 4. Mock Mode (Optioneel)
+
+Wil je de app testen zonder Supabase? Gebruik mock mode met voorbeelddata:
+
+```bash
+npm run dev:mock
+```
+
+Dit start de app met:
+- 8 realistische voorbeeldproducten
+- Diverse scenario's (verkocht, deels verkocht, verlies)
+- Werkende statistieken en verkoop functionaliteit
+- Geen Supabase credentials nodig
+
+Perfect voor:
+- Demo's en presentaties
+- UI/UX testing
+- Development zonder database
+
 ## 📱 Gebruik
 
 ### 1. Registreren
@@ -106,6 +125,7 @@ vinted-wallet/
 │   ├── hooks/                 # Custom React hooks
 │   ├── context/               # React Context
 │   ├── lib/                   # Supabase client
+│   ├── mocks/                 # Mock data voor development
 │   └── styles/                # CSS files
 ├── supabase/
 │   └── migrations/            # Database schema
