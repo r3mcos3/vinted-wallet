@@ -20,11 +20,11 @@
 
 .install-prompt-content {
   position: relative;
-  background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
-  border: 2px solid #e5e7eb;
+  background: var(--gradient-card);
+  border: 2px solid var(--color-border);
   border-radius: 16px;
   padding: 24px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-lg);
   max-width: 500px;
   margin: 0 auto;
 }
@@ -36,7 +36,7 @@
   background: transparent;
   border: none;
   font-size: 24px;
-  color: #9ca3af;
+  color: var(--color-text-light);
   cursor: pointer;
   padding: 4px;
   line-height: 1;
@@ -44,7 +44,7 @@
 }
 
 .install-prompt-close:hover {
-  color: #1f2937;
+  color: var(--color-text-primary);
   transform: scale(1.1);
 }
 
@@ -58,7 +58,7 @@
   font-family: 'Outfit', sans-serif;
   font-size: 22px;
   font-weight: 700;
-  color: #1f2937;
+  color: var(--color-text-primary);
   margin: 0 0 12px 0;
   text-align: center;
 }
@@ -67,7 +67,7 @@
   font-family: 'DM Sans', sans-serif;
   font-size: 15px;
   line-height: 1.6;
-  color: #6b7280;
+  color: var(--color-text-muted);
   margin: 0 0 24px 0;
   text-align: center;
 }
@@ -85,9 +85,9 @@
   align-items: center;
   gap: 16px;
   padding: 12px;
-  background: #f9fafb;
+  background: var(--color-bg-secondary);
   border-radius: 10px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--color-border);
 }
 
 .step-number {
@@ -97,7 +97,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #4A7FFF 0%, #3b68cc 100%);
+  background: var(--gradient-accent);
   color: white;
   border-radius: 50%;
   font-family: 'Outfit', sans-serif;
@@ -108,12 +108,12 @@
 .step-text {
   font-family: 'DM Sans', sans-serif;
   font-size: 14px;
-  color: #374151;
+  color: var(--color-text-secondary);
   flex: 1;
 }
 
 .step-text strong {
-  color: #1f2937;
+  color: var(--color-text-primary);
   font-weight: 600;
 }
 
@@ -122,7 +122,7 @@
   margin: 0 4px;
   font-size: 20px;
   vertical-align: middle;
-  color: #4A7FFF;
+  color: var(--color-accent);
 }
 
 /* Android Install Button */
@@ -132,13 +132,13 @@
   font-family: 'Outfit', sans-serif;
   font-size: 16px;
   font-weight: 600;
-  background: linear-gradient(135deg, #4A7FFF 0%, #3b68cc 100%);
+  background: var(--gradient-accent);
   color: white;
   border: none;
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.2s;
-  box-shadow: 0 4px 12px rgba(74, 127, 255, 0.3);
+  box-shadow: var(--shadow-accent);
   margin-bottom: 12px;
 }
 
@@ -159,14 +159,14 @@
   font-size: 14px;
   font-weight: 600;
   background: transparent;
-  color: #6b7280;
+  color: var(--color-text-muted);
   border: none;
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .install-dismiss:hover {
-  color: #1f2937;
+  color: var(--color-text-primary);
 }
 
 /* Responsive */

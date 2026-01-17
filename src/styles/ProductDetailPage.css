@@ -1,6 +1,6 @@
 .product-detail-page {
   min-height: 100vh;
-  background: linear-gradient(to bottom, #f9fafb 0%, #ffffff 100%);
+  background: var(--gradient-page);
   padding: 24px;
 }
 
@@ -17,17 +17,17 @@
   font-family: 'DM Sans', sans-serif;
   font-size: 14px;
   font-weight: 600;
-  color: #6b7280;
-  background: white;
-  border: 2px solid #e5e7eb;
+  color: var(--color-text-muted);
+  background: var(--color-card-bg);
+  border: 2px solid var(--color-border);
   border-radius: 10px;
   text-decoration: none;
   transition: all 0.2s;
 }
 
 .back-button:hover {
-  border-color: #d1d5db;
-  background: #f9fafb;
+  border-color: var(--color-border-dark);
+  background: var(--color-bg-hover);
 }
 
 .detail-actions {
@@ -48,9 +48,9 @@
 }
 
 .detail-button.edit {
-  background: linear-gradient(135deg, #4A7FFF 0%, #3b68cc 100%);
+  background: var(--gradient-accent);
   color: white;
-  box-shadow: 0 4px 12px rgba(74, 127, 255, 0.3);
+  box-shadow: var(--shadow-accent);
 }
 
 .detail-button.edit:hover {
@@ -59,7 +59,7 @@
 }
 
 .detail-button.delete {
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  background: linear-gradient(135deg, var(--color-error) 0%, var(--color-error-dark) 100%);
   color: white;
   box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }
@@ -84,7 +84,7 @@
   padding: 20px 24px;
   border-radius: 12px;
   border-left: 4px solid;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-md);
   animation: slideDown 0.3s ease;
 }
 
@@ -100,13 +100,13 @@
 }
 
 .return-warning-banner.warning {
-  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-  border-left-color: #f59e0b;
+  background: linear-gradient(135deg, var(--color-warning-light) 0%, var(--color-warning-light) 100%);
+  border-left-color: var(--color-warning);
 }
 
 .return-warning-banner.expired {
-  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-  border-left-color: #ef4444;
+  background: linear-gradient(135deg, var(--color-error-light) 0%, var(--color-error-light) 100%);
+  border-left-color: var(--color-error);
 }
 
 .return-warning-banner .warning-icon {
@@ -156,17 +156,17 @@
   display: grid;
   grid-template-columns: 1fr 1.5fr;
   gap: 40px;
-  background: white;
+  background: var(--color-card-bg);
   border-radius: 20px;
   padding: 40px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow-md);
 }
 
 .detail-image {
   position: relative;
   width: 100%;
   padding-top: 100%;
-  background: #f9fafb;
+  background: var(--color-bg-secondary);
   border-radius: 16px;
   overflow: hidden;
 }
@@ -190,7 +190,7 @@
   align-items: center;
   justify-content: center;
   font-size: 80px;
-  background: linear-gradient(135deg, #f8f8f6 0%, #ececea 100%);
+  background: linear-gradient(135deg, var(--color-placeholder-bg) 0%, var(--color-placeholder-border) 100%);
 }
 
 .detail-info {
@@ -203,7 +203,7 @@
   font-family: 'Outfit', sans-serif;
   font-size: 32px;
   font-weight: 700;
-  color: #1f2937;
+  color: var(--color-text-primary);
   margin: 0;
 }
 
@@ -219,14 +219,14 @@
   flex-direction: column;
   gap: 8px;
   padding: 20px;
-  background: #f9fafb;
+  background: var(--color-bg-secondary);
   border-radius: 12px;
-  border: 2px solid #e5e7eb;
+  border: 2px solid var(--color-border);
 }
 
 .price-box.sale {
-  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-  border-color: #93c5fd;
+  background: var(--color-accent-light);
+  border-color: var(--color-accent-border);
 }
 
 .price-box.return-box {
@@ -234,18 +234,18 @@
 }
 
 .price-box.return-box.normal {
-  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-  border-color: #86efac;
+  background: var(--color-success-light);
+  border-color: var(--color-success);
 }
 
 .price-box.return-box.warning {
-  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-  border-color: #fcd34d;
+  background: var(--color-warning-light);
+  border-color: var(--color-warning);
 }
 
 .price-box.return-box.expired {
-  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-  border-color: #fca5a5;
+  background: var(--color-error-light);
+  border-color: var(--color-error);
 }
 
 .price-box .return-date {
@@ -257,7 +257,7 @@
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
   font-weight: 600;
-  color: #d97706;
+  color: var(--color-warning);
   margin-top: 4px;
 }
 
@@ -266,7 +266,7 @@
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
   font-weight: 600;
-  color: #dc2626;
+  color: var(--color-error-dark);
   margin-top: 4px;
 }
 
@@ -276,19 +276,19 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: #6b7280;
+  color: var(--color-text-muted);
 }
 
 .price-value {
   font-family: 'Outfit', sans-serif;
   font-size: 28px;
   font-weight: 700;
-  color: #1f2937;
+  color: var(--color-text-primary);
 }
 
 .price-arrow {
   font-size: 24px;
-  color: #9ca3af;
+  color: var(--color-text-light);
 }
 
 .detail-profit {
@@ -302,13 +302,13 @@
 }
 
 .detail-profit.positive {
-  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
-  color: #059669;
+  background: linear-gradient(135deg, var(--color-success-light) 0%, var(--color-success-light) 100%);
+  color: var(--color-success-dark);
 }
 
 .detail-profit.negative {
-  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-  color: #dc2626;
+  background: linear-gradient(135deg, var(--color-error-light) 0%, var(--color-error-light) 100%);
+  color: var(--color-error-dark);
 }
 
 .detail-profit strong {
@@ -319,16 +319,16 @@
 
 .detail-notes {
   padding: 20px;
-  background: #f9fafb;
+  background: var(--color-bg-secondary);
   border-radius: 12px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--color-border);
 }
 
 .detail-notes h3 {
   font-family: 'Outfit', sans-serif;
   font-size: 16px;
   font-weight: 600;
-  color: #374151;
+  color: var(--color-text-secondary);
   margin: 0 0 12px 0;
 }
 
@@ -336,7 +336,7 @@
   font-family: 'DM Sans', sans-serif;
   font-size: 15px;
   line-height: 1.6;
-  color: #6b7280;
+  color: var(--color-text-muted);
   margin: 0;
 }
 
@@ -344,7 +344,7 @@
   font-family: 'Outfit', sans-serif;
   font-size: 20px;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--color-text-primary);
   margin: 0 0 16px 0;
 }
 
@@ -352,7 +352,7 @@
   display: flex;
   flex-direction: column;
   gap: 1px;
-  background: #e5e7eb;
+  background: var(--color-border);
   border-radius: 12px;
   overflow: hidden;
 }
@@ -363,7 +363,7 @@
   grid-template-columns: 1fr 1fr 1fr 1fr 1.5fr;
   gap: 16px;
   padding: 16px 20px;
-  background: white;
+  background: var(--color-card-bg);
   align-items: center;
 }
 
@@ -373,30 +373,30 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: #6b7280;
-  background: #f9fafb;
+  color: var(--color-text-muted);
+  background: var(--color-bg-secondary);
 }
 
 .sizes-table-row {
   font-family: 'DM Sans', sans-serif;
   font-size: 15px;
-  color: #374151;
+  color: var(--color-text-secondary);
 }
 
 .size-badge {
   font-family: 'Outfit', sans-serif;
   font-weight: 700;
   font-size: 16px;
-  color: #1f2937;
+  color: var(--color-text-primary);
 }
 
 .sizes-table-row .available {
-  color: #059669;
+  color: var(--color-success-dark);
   font-weight: 600;
 }
 
 .sizes-table-row .sold-out {
-  color: #dc2626;
+  color: var(--color-error-dark);
   font-weight: 600;
 }
 
@@ -405,7 +405,7 @@
   font-family: 'Outfit', sans-serif;
   font-size: 13px;
   font-weight: 600;
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  background: var(--gradient-success);
   color: white;
   border: none;
   border-radius: 8px;
@@ -427,7 +427,7 @@
 .sold-out-badge {
   font-size: 12px;
   font-weight: 600;
-  color: #9ca3af;
+  color: var(--color-text-light);
 }
 
 /* Sales History */
@@ -439,7 +439,7 @@
   font-family: 'Outfit', sans-serif;
   font-size: 20px;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--color-text-primary);
   margin: 0 0 16px 0;
 }
 
@@ -447,7 +447,7 @@
   display: flex;
   flex-direction: column;
   gap: 1px;
-  background: #e5e7eb;
+  background: var(--color-border);
   border-radius: 12px;
   overflow: hidden;
 }
@@ -458,7 +458,7 @@
   grid-template-columns: 1.2fr 1fr 0.8fr 1fr 1fr;
   gap: 16px;
   padding: 16px 20px;
-  background: white;
+  background: var(--color-card-bg);
   align-items: center;
 }
 
@@ -468,34 +468,34 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: #6b7280;
-  background: #f9fafb;
+  color: var(--color-text-muted);
+  background: var(--color-bg-secondary);
 }
 
 .sales-history-row {
   font-family: 'DM Sans', sans-serif;
   font-size: 15px;
-  color: #374151;
+  color: var(--color-text-secondary);
 }
 
 .sale-date {
-  color: #6b7280;
+  color: var(--color-text-muted);
   font-size: 14px;
 }
 
 .sale-size {
   font-family: 'Outfit', sans-serif;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--color-text-primary);
 }
 
 .sale-quantity {
-  color: #6b7280;
+  color: var(--color-text-muted);
 }
 
 .sale-price {
   font-weight: 600;
-  color: #4A7FFF;
+  color: var(--color-accent);
 }
 
 .sale-profit {
@@ -503,11 +503,11 @@
 }
 
 .sale-profit.positive {
-  color: #10b981;
+  color: var(--color-success);
 }
 
 .sale-profit.negative {
-  color: #ef4444;
+  color: var(--color-error);
 }
 
 /* Modal */
@@ -533,7 +533,7 @@
 }
 
 .modal-content {
-  background: white;
+  background: var(--color-card-bg);
   border-radius: 20px;
   padding: 32px;
   max-width: 400px;
@@ -557,7 +557,7 @@
   font-family: 'Outfit', sans-serif;
   font-size: 24px;
   font-weight: 700;
-  color: #1f2937;
+  color: var(--color-text-primary);
   margin: 0 0 16px 0;
 }
 
@@ -565,7 +565,7 @@
   font-family: 'DM Sans', sans-serif;
   font-size: 16px;
   line-height: 1.6;
-  color: #6b7280;
+  color: var(--color-text-muted);
   margin: 0 0 24px 0;
 }
 
@@ -587,7 +587,7 @@
 }
 
 .modal-button.primary {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  background: var(--gradient-success);
   color: white;
   box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
 }
@@ -598,14 +598,14 @@
 }
 
 .modal-button.secondary {
-  background: white;
-  color: #6b7280;
-  border: 2px solid #e5e7eb;
+  background: var(--color-card-bg);
+  color: var(--color-text-muted);
+  border: 2px solid var(--color-border);
 }
 
 .modal-button.secondary:hover:not(:disabled) {
-  background: #f9fafb;
-  border-color: #d1d5db;
+  background: var(--color-bg-hover);
+  border-color: var(--color-border-dark);
 }
 
 .modal-button:disabled {
@@ -625,7 +625,7 @@
 .detail-page-loading p {
   font-family: 'DM Sans', sans-serif;
   font-size: 16px;
-  color: #6b7280;
+  color: var(--color-text-muted);
 }
 
 /* Responsive */

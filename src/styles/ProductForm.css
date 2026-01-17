@@ -17,10 +17,10 @@
   font-family: 'Outfit', sans-serif;
   font-size: 20px;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--color-text-primary);
   margin: 0;
   padding-bottom: 8px;
-  border-bottom: 2px solid #e5e7eb;
+  border-bottom: 2px solid var(--color-border);
 }
 
 .form-field {
@@ -33,32 +33,32 @@
   font-family: 'DM Sans', sans-serif;
   font-size: 14px;
   font-weight: 600;
-  color: #374151;
+  color: var(--color-text-secondary);
 }
 
 .field-label .required {
-  color: #ef4444;
+  color: var(--color-error);
 }
 
 .field-input {
   padding: 12px 16px;
   font-family: 'DM Sans', sans-serif;
   font-size: 16px;
-  color: #1f2937;
-  background: #ffffff;
-  border: 2px solid #e5e7eb;
+  color: var(--color-text-primary);
+  background: var(--color-input-bg);
+  border: 2px solid var(--color-input-border);
   border-radius: 10px;
   transition: all 0.2s;
 }
 
 .field-input:focus {
   outline: none;
-  border-color: #4A7FFF;
+  border-color: var(--color-input-focus);
   box-shadow: 0 0 0 3px rgba(74, 127, 255, 0.1);
 }
 
 .field-input:disabled {
-  background: #f9fafb;
+  background: var(--color-bg-secondary);
   cursor: not-allowed;
   opacity: 0.6;
 }
@@ -75,7 +75,7 @@
   font-family: 'Outfit', sans-serif;
   font-size: 16px;
   font-weight: 600;
-  color: #6b7280;
+  color: var(--color-text-muted);
   pointer-events: none;
 }
 
@@ -88,9 +88,9 @@
   font-family: 'DM Sans', sans-serif;
   font-size: 15px;
   line-height: 1.6;
-  color: #1f2937;
-  background: #ffffff;
-  border: 2px solid #e5e7eb;
+  color: var(--color-text-primary);
+  background: var(--color-input-bg);
+  border: 2px solid var(--color-input-border);
   border-radius: 10px;
   resize: vertical;
   transition: all 0.2s;
@@ -98,12 +98,12 @@
 
 .field-textarea:focus {
   outline: none;
-  border-color: #4A7FFF;
+  border-color: var(--color-input-focus);
   box-shadow: 0 0 0 3px rgba(74, 127, 255, 0.1);
 }
 
 .field-textarea:disabled {
-  background: #f9fafb;
+  background: var(--color-bg-secondary);
   cursor: not-allowed;
   opacity: 0.6;
 }
@@ -117,7 +117,7 @@
 .field-hint {
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
-  color: #6b7280;
+  color: var(--color-text-muted);
   margin-top: 4px;
 }
 
@@ -134,18 +134,18 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: #e5e7eb;
+  background: var(--color-border);
 }
 
 .form-divider span {
   position: relative;
   display: inline-block;
   padding: 0 16px;
-  background: white;
+  background: var(--color-bg-primary);
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
   font-weight: 600;
-  color: #9ca3af;
+  color: var(--color-text-light);
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -154,10 +154,10 @@
   display: flex;
   gap: 12px;
   padding-top: 16px;
-  border-top: 2px solid #e5e7eb;
+  border-top: 2px solid var(--color-border);
   position: sticky;
   bottom: 0;
-  background: linear-gradient(to top, #ffffff 80%, transparent);
+  background: linear-gradient(to top, var(--color-bg-primary) 80%, transparent);
   padding-bottom: 24px;
 }
 
@@ -174,9 +174,9 @@
 }
 
 .form-button.primary {
-  background: linear-gradient(135deg, #4A7FFF 0%, #3b68cc 100%);
+  background: var(--gradient-accent);
   color: white;
-  box-shadow: 0 4px 12px rgba(74, 127, 255, 0.3);
+  box-shadow: var(--shadow-accent);
 }
 
 .form-button.primary:hover:not(:disabled) {
@@ -189,14 +189,14 @@
 }
 
 .form-button.secondary {
-  background: #ffffff;
-  color: #6b7280;
-  border: 2px solid #e5e7eb;
+  background: var(--color-card-bg);
+  color: var(--color-text-muted);
+  border: 2px solid var(--color-border);
 }
 
 .form-button.secondary:hover:not(:disabled) {
-  background: #f9fafb;
-  border-color: #d1d5db;
+  background: var(--color-bg-hover);
+  border-color: var(--color-border-dark);
   transform: translateY(-1px);
 }
 
@@ -217,14 +217,15 @@
 
 .react-datepicker {
   font-family: 'DM Sans', sans-serif;
-  border: 2px solid #e5e7eb;
+  border: 2px solid var(--color-border);
   border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-lg);
+  background: var(--color-card-bg);
 }
 
 .react-datepicker__header {
-  background: #f9fafb;
-  border-bottom: 2px solid #e5e7eb;
+  background: var(--color-bg-secondary);
+  border-bottom: 2px solid var(--color-border);
   border-radius: 10px 10px 0 0;
   padding-top: 12px;
 }
@@ -233,35 +234,35 @@
 .react-datepicker__day-name {
   font-family: 'Outfit', sans-serif;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--color-text-primary);
 }
 
 .react-datepicker__day {
   font-family: 'DM Sans', sans-serif;
-  color: #374151;
+  color: var(--color-text-secondary);
   border-radius: 8px;
   transition: all 0.2s;
 }
 
 .react-datepicker__day:hover {
-  background: #eff6ff;
-  color: #4A7FFF;
+  background: var(--color-accent-light);
+  color: var(--color-accent);
 }
 
 .react-datepicker__day--selected,
 .react-datepicker__day--keyboard-selected {
-  background: linear-gradient(135deg, #4A7FFF 0%, #3b68cc 100%);
+  background: var(--gradient-accent);
   color: white;
   font-weight: 600;
 }
 
 .react-datepicker__day--selected:hover {
-  background: linear-gradient(135deg, #3b68cc 0%, #2d54b3 100%);
+  background: var(--gradient-accent);
 }
 
 .react-datepicker__day--today {
   font-weight: 600;
-  color: #4A7FFF;
+  color: var(--color-accent);
 }
 
 .react-datepicker__triangle {
@@ -270,8 +271,8 @@
 
 /* Current Inventory Display */
 .current-inventory {
-  background: #f3f4f6;
-  border: 2px solid #e5e7eb;
+  background: var(--color-bg-tertiary);
+  border: 2px solid var(--color-border);
   border-radius: 10px;
   padding: 16px;
   margin-bottom: 16px;
@@ -281,7 +282,7 @@
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
   font-weight: 600;
-  color: #6b7280;
+  color: var(--color-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 8px;
@@ -297,25 +298,25 @@
 }
 
 .stat-item {
-  color: #374151;
+  color: var(--color-text-secondary);
 }
 
 .stat-item strong {
   font-weight: 700;
-  color: #1f2937;
+  color: var(--color-text-primary);
 }
 
 .stat-item.sold {
-  color: #ef4444;
+  color: var(--color-error);
 }
 
 .stat-item.available {
-  color: #10b981;
+  color: var(--color-success);
   font-weight: 600;
 }
 
 .stat-divider {
-  color: #d1d5db;
+  color: var(--color-border-dark);
 }
 
 /* Responsive */

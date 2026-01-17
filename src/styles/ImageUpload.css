@@ -13,22 +13,22 @@
   justify-content: center;
   gap: 16px;
   padding: 48px 24px;
-  background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
-  border: 2px dashed #d1d5db;
+  background: var(--gradient-bg-secondary);
+  border: 2px dashed var(--color-border-dark);
   border-radius: 16px;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .image-upload-dropzone:hover:not(.disabled) {
-  border-color: #4A7FFF;
-  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  border-color: var(--color-accent);
+  background: var(--color-accent-light);
   transform: scale(1.01);
 }
 
 .image-upload-dropzone.dragging {
-  border-color: #4A7FFF;
-  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  border-color: var(--color-accent);
+  background: var(--color-accent-light);
   transform: scale(1.02);
 }
 
@@ -63,21 +63,21 @@
   font-family: 'Outfit', sans-serif;
   font-size: 16px;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--color-text-primary);
 }
 
 .dropzone-text span {
   font-family: 'DM Sans', sans-serif;
   font-size: 14px;
-  color: #6b7280;
+  color: var(--color-text-muted);
 }
 
 .dropzone-hint {
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
-  color: #9ca3af;
+  color: var(--color-text-light);
   padding: 6px 12px;
-  background: rgba(255, 255, 255, 0.6);
+  background: var(--color-bg-overlay);
   border-radius: 8px;
 }
 
@@ -88,7 +88,7 @@
   margin: 0 auto;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-md);
   animation: previewFadeIn 0.4s ease;
 }
 

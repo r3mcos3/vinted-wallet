@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
+import { ThemeProvider } from './context/ThemeContext'
 import { ProtectedRoute } from './components/common/ProtectedRoute'
 import { InstallPrompt } from './components/common/InstallPrompt'
 import { LoginPage } from './pages/LoginPage'
@@ -12,8 +13,9 @@ import { StatsPage } from './pages/StatsPage'
 
 function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
+    <ThemeProvider>
+      <AuthProvider>
+        <BrowserRouter>
         <InstallPrompt />
         <Routes>
           {/* Public routes */}
@@ -65,8 +67,9 @@ function App() {
           {/* Catch all */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-      </BrowserRouter>
-    </AuthProvider>
+        </BrowserRouter>
+      </AuthProvider>
+    </ThemeProvider>
   )
 }
 

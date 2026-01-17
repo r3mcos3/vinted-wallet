@@ -4,6 +4,7 @@ import { useAuth } from '../hooks/useAuth'
 import { useProducts } from '../hooks/useProducts'
 import { useStats } from '../hooks/useStats'
 import { ProductGrid } from '../components/products/ProductGrid'
+import { ThemeToggle } from '../components/common/ThemeToggle'
 import '../styles/OverviewPage.css'
 
 export function OverviewPage() {
@@ -66,6 +67,7 @@ export function OverviewPage() {
             <Link to="/products/new" className="header-button primary">
               + Nieuw Product
             </Link>
+            <ThemeToggle />
             <button onClick={handleLogout} className="header-button secondary">
               Uitloggen
             </button>

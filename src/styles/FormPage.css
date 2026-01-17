@@ -1,6 +1,6 @@
 .form-page {
   min-height: 100vh;
-  background: linear-gradient(to bottom, #f9fafb 0%, #ffffff 100%);
+  background: var(--gradient-bg-page);
   padding: 24px 24px 80px 24px;
 }
 
@@ -14,14 +14,14 @@
   font-family: 'Outfit', sans-serif;
   font-size: 32px;
   font-weight: 700;
-  color: #1f2937;
+  color: var(--color-text-primary);
   margin: 0 0 8px 0;
 }
 
 .form-page-subtitle {
   font-family: 'DM Sans', sans-serif;
   font-size: 16px;
-  color: #6b7280;
+  color: var(--color-text-muted);
   margin: 0;
 }
 
@@ -29,10 +29,10 @@
   max-width: 700px;
   margin: 0 auto 24px auto;
   padding: 16px;
-  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-  border: 2px solid #fecaca;
+  background: var(--color-error-light);
+  border: 2px solid var(--color-error-border);
   border-radius: 12px;
-  color: #dc2626;
+  color: var(--color-error);
   font-family: 'DM Sans', sans-serif;
   font-size: 14px;
   font-weight: 500;

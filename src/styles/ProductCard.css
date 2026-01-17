@@ -2,10 +2,10 @@
 
 .product-card {
   display: block;
-  background: #ffffff;
+  background: var(--color-card-bg);
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow-md);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   text-decoration: none;
   color: inherit;
@@ -14,14 +14,14 @@
 
 .product-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--shadow-lg);
 }
 
 .product-card-image {
   position: relative;
   width: 100%;
   padding-top: 75%; /* 4:3 aspect ratio */
-  background: #f8f8f6;
+  background: var(--color-placeholder-bg);
   overflow: hidden;
 }
 
@@ -49,7 +49,7 @@
   align-items: center;
   justify-content: center;
   font-size: 48px;
-  background: linear-gradient(135deg, #f8f8f6 0%, #ececea 100%);
+  background: linear-gradient(135deg, var(--color-placeholder-bg) 0%, var(--color-placeholder-border) 100%);
 }
 
 /* Badge Container */
@@ -125,7 +125,7 @@
   font-family: 'Outfit', sans-serif;
   font-size: 18px;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--color-text-primary);
   margin: 0;
   line-height: 1.3;
   display: -webkit-box;
@@ -137,7 +137,7 @@
 .product-card-sizes {
   font-family: 'DM Sans', sans-serif;
   font-size: 14px;
-  color: #6b7280;
+  color: var(--color-text-muted);
   display: flex;
   align-items: center;
   gap: 6px;
@@ -145,14 +145,14 @@
 
 .size-label {
   font-weight: 600;
-  color: #9ca3af;
+  color: var(--color-text-light);
 }
 
 .product-card-prices {
   display: flex;
   gap: 16px;
   padding-top: 8px;
-  border-top: 1px solid #f3f4f6;
+  border-top: 1px solid var(--color-border-light);
 }
 
 .price-item {
@@ -167,22 +167,22 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: #9ca3af;
+  color: var(--color-text-light);
 }
 
 .price-value {
   font-family: 'Outfit', sans-serif;
   font-size: 17px;
   font-weight: 700;
-  color: #1f2937;
+  color: var(--color-text-primary);
 }
 
 .price-value.sale {
-  color: #4A7FFF;
+  color: var(--color-accent);
 }
 
 .price-value.sale-price {
-  color: #10b981;
+  color: var(--color-success);
 }
 
 .product-card-profit {
@@ -191,23 +191,23 @@
   justify-content: space-between;
   padding: 10px 12px;
   border-radius: 10px;
-  background: #f9fafb;
+  background: var(--color-bg-secondary);
   margin-top: 4px;
 }
 
 .product-card-profit.positive {
-  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+  background: linear-gradient(135deg, var(--color-success-light) 0%, var(--color-success-light) 100%);
 }
 
 .product-card-profit.negative {
-  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  background: linear-gradient(135deg, var(--color-error-light) 0%, var(--color-error-light) 100%);
 }
 
 .profit-label {
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
   font-weight: 600;
-  color: #6b7280;
+  color: var(--color-text-muted);
 }
 
 .profit-value {
@@ -217,11 +217,11 @@
 }
 
 .product-card-profit.positive .profit-value {
-  color: #059669;
+  color: var(--color-success-dark);
 }
 
 .product-card-profit.negative .profit-value {
-  color: #dc2626;
+  color: var(--color-error-dark);
 }
 
 /* Responsive */
