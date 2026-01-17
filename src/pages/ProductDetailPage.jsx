@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
-import { supabase } from '../lib/supabase'
 import { useProducts } from '../hooks/useProducts'
 import { getReturnStatus } from '../utils/returnStatus'
 import '../styles/ProductDetailPage.css'
@@ -8,7 +7,7 @@ import '../styles/ProductDetailPage.css'
 export function ProductDetailPage() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const { sellProductSize, deleteProduct } = useProducts()
+  const { fetchProductById, sellProductSize, deleteProduct } = useProducts()
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(true)
   const [sellModal, setSellModal] = useState(null)
@@ -22,25 +21,8 @@ export function ProductDetailPage() {
   const fetchProduct = async () => {
     try {
       setLoading(true)
-      const { data, error } = await supabase
-        .from('products')
-        .select(`
-          *,
-          product_sizes (
-            *,
-            sales (
-              id,
-              sale_price,
-              quantity,
-              sold_at,
-              notes
-            )
-          )
-        `)
-        .eq('id', id)
-        .single()
-
-      if (error) throw error
+      const data = await fetchProductById(id)
+      if (!data) throw new Error('Product niet gevonden')
       setProduct(data)
     } catch (err) {
       console.error('Error fetching product:', err)

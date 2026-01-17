@@ -182,6 +182,33 @@ export function useMockProducts() {
     return newSale
   }, [sales])
 
+  // Fetch a single product by ID (for detail page)
+  const fetchProductById = useCallback(async (productId) => {
+    await new Promise(resolve => setTimeout(resolve, 200))
+
+    const product = products.find(p => p.id === productId)
+    if (!product) return null
+
+    // Add sales data to each size (mimics Supabase nested query)
+    const productWithSales = {
+      ...product,
+      product_sizes: product.product_sizes.map(size => ({
+        ...size,
+        sales: sales
+          .filter(sale => sale.product_size_id === size.id)
+          .map(sale => ({
+            id: sale.id,
+            sale_price: sale.sale_price,
+            quantity: sale.quantity,
+            sold_at: sale.sold_at,
+            notes: sale.notes
+          }))
+      }))
+    }
+
+    return productWithSales
+  }, [products, sales])
+
   // Filter out soft-deleted products
   const activeProducts = products.filter(p => !p.deleted_at)
 
@@ -190,6 +217,7 @@ export function useMockProducts() {
     loading,
     error,
     fetchProducts,
+    fetchProductById,
     createProduct,
     updateProduct,
     deleteProduct,

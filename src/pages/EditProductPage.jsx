@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { supabase } from '../lib/supabase'
 import { useProducts } from '../hooks/useProducts'
 import { ProductForm } from '../components/products/ProductForm'
 import '../styles/FormPage.css'
@@ -8,7 +7,7 @@ import '../styles/FormPage.css'
 export function EditProductPage() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const { updateProduct } = useProducts()
+  const { fetchProductById, updateProduct } = useProducts()
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(true)
   const [submitLoading, setSubmitLoading] = useState(false)
@@ -21,16 +20,8 @@ export function EditProductPage() {
   const fetchProduct = async () => {
     try {
       setLoading(true)
-      const { data, error } = await supabase
-        .from('products')
-        .select(`
-          *,
-          product_sizes (*)
-        `)
-        .eq('id', id)
-        .single()
-
-      if (error) throw error
+      const data = await fetchProductById(id)
+      if (!data) throw new Error('Product niet gevonden')
       setProduct(data)
     } catch (err) {
       console.error('Error fetching product:', err)

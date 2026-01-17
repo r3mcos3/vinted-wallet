@@ -332,11 +332,36 @@ function useRealProducts() {
     }
   }
 
+  // Fetch a single product by ID (for detail page)
+  const fetchProductById = async (productId) => {
+    const { data, error } = await supabase
+      .from('products')
+      .select(`
+        *,
+        product_sizes (
+          *,
+          sales (
+            id,
+            sale_price,
+            quantity,
+            sold_at,
+            notes
+          )
+        )
+      `)
+      .eq('id', productId)
+      .single()
+
+    if (error) throw error
+    return data
+  }
+
   return {
     products,
     loading,
     error,
     fetchProducts,
+    fetchProductById,
     createProduct,
     updateProduct,
     deleteProduct,
