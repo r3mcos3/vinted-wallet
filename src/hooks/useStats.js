@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
 import { useAuth } from './useAuth'
+import { useMockStats } from '../mocks/MockDataProvider'
 
-export function useStats() {
+const isMockMode = import.meta.env.VITE_MOCK_MODE === 'true'
+
+// Real Supabase implementation
+function useRealStats() {
   const { user } = useAuth()
   const [stats, setStats] = useState(null)
   const [periodEarnings, setPeriodEarnings] = useState(null)
@@ -136,3 +140,6 @@ export function useStats() {
     resetPeriod
   }
 }
+
+// Export the appropriate hook based on mode
+export const useStats = isMockMode ? useMockStats : useRealStats

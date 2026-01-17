@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react'
 import { supabase, PRODUCTS_BUCKET } from '../lib/supabase'
 import { useAuth } from './useAuth'
+import { useMockProducts } from '../mocks/MockDataProvider'
 
-export function useProducts() {
+const isMockMode = import.meta.env.VITE_MOCK_MODE === 'true'
+
+// Real Supabase implementation
+function useRealProducts() {
   const { user } = useAuth()
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
@@ -339,3 +343,6 @@ export function useProducts() {
     sellProductSize
   }
 }
+
+// Export the appropriate hook based on mode
+export const useProducts = isMockMode ? useMockProducts : useRealProducts

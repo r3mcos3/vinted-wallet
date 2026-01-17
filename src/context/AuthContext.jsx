@@ -1,13 +1,21 @@
 import { createContext, useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
 
+const isMockMode = import.meta.env.VITE_MOCK_MODE === 'true'
+
 export const AuthContext = createContext({})
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(!isMockMode) // Don't show loading in mock mode
 
   useEffect(() => {
+    // Skip Supabase auth in mock mode
+    if (isMockMode) {
+      setLoading(false)
+      return
+    }
+
     // Check active session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null)
