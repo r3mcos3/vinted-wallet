@@ -143,6 +143,18 @@ export function ProductDetailPage() {
               <span className="price-value">€{product.purchase_price.toFixed(2)}</span>
             </div>
             {product.purchase_date && (
+              <div className="price-box">
+                <span className="price-label">Inkoopdatum</span>
+                <span className="price-value">
+                  {new Date(product.purchase_date).toLocaleDateString('nl-NL', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric'
+                  })}
+                </span>
+              </div>
+            )}
+            {product.purchase_date && (
               <div className={`price-box return-box ${returnStatus.status}`}>
                 <span className="price-label">Retour mogelijk tot</span>
                 <span className="price-value return-date">
