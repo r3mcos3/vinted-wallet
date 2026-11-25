@@ -15,7 +15,7 @@
     "react-datepicker": "^9.1.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.53.0",
-    "react-router-dom": "^6.26.0"
+    "react-router-dom": "^7.0.0"
   },
   "devDependencies": {
     "@types/react": "^19.0.0",
